@@ -15,6 +15,7 @@
   "paths": {
     "/postcodes": {
       "get": {
+        "summary": "Alle postcodes",
         "description": "Alle postcodes in Nederland, gepagineerd per 100 records",
         "parameters": [
           {
@@ -79,6 +80,7 @@
     },
     "/postcodes/{postcode}": {
       "get": {
+        "summary": "Enkele postcode",
         "parameters": [
           {
             "name": "postcode",
