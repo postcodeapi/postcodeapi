@@ -1,3 +1,4 @@
+
 {
   "swagger": "2.0",
   "info": {
@@ -13,6 +14,382 @@
     "application/json"
   ],
   "paths": {
+    "/municipalities": {
+      "get": {
+        "summary": "Alle gemeentes",
+        "description": "Alle gemeentes in Nederland",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_embedded": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "label": {
+                        "type": "string",
+                        "example": "Nijmegen"
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "object",
+                            "properties": {
+                              "href": {
+                                "type": "string",
+                                "example": "/municipalities/1"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/municipalities/{municipalityId}": {
+      "get": {
+        "summary": "Enkele gemeente",
+        "description": "Gemeente met Geo informatie en bijbehorende woonplaatsen.",
+        "parameters": [
+          {
+            "name": "municipalityId",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "example": "Nijmegen"
+                },
+                "province": {
+                  "type": "string",
+                  "example": "Gelderland"
+                },
+                "geoJson": {
+                  "$ref": "#/definitions/GeoJsonObject"
+                },
+                "towns": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "example": "Nijmegen"
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "object",
+                            "properties": {
+                              "href": {
+                                "type": "string",
+                                "example": "/towns/1"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "_links": {
+                  "type": "object",
+                  "properties": {
+                    "province": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "example": "/provinces/1"
+                        }
+                      }
+                    },
+                    "postcodes": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "example": "/postcodes?municipalityId=1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/towns": {
+      "get": {
+        "summary": "Alle woonplaatsen",
+        "description": "Alle woonplaatsen in Nederland",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_embedded": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "label": {
+                        "type": "string",
+                        "example": "Nijmegen"
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "object",
+                            "properties": {
+                              "href": {
+                                "type": "string",
+                                "example": "/towns/1"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/towns/{townId}": {
+      "get": {
+        "summary": "Enkele woonplaats",
+        "description": "Woonplaats met Geo informatie en bijbehorende postcodegebieden.",
+        "parameters": [
+          {
+            "name": "townId",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "example": "Nijmegen"
+                },
+                "municipality": {
+                  "type": "string",
+                  "example": "Nijmegen"
+                },
+                "province": {
+                  "type": "string",
+                  "example": "Gelderland"
+                },
+                "geoJson": {
+                  "$ref": "#/definitions/GeoJsonObject"
+                },
+                "postcodes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "example": "6545"
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "object",
+                            "properties": {
+                              "href": {
+                                "type": "string",
+                                "example": "/postcodes/6545"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "_links": {
+                  "type": "object",
+                  "properties": {
+                    "municipality": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "example": "/municipalities/1"
+                        }
+                      }
+                    },
+                    "province": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "example": "/provinces/1"
+                        }
+                      }
+                    },
+                    "postcodes": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "example": "/postcodes?townId=1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/provinces": {
+      "get": {
+        "summary": "Alle provincies",
+        "description": "Alle provincies in Nederland",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_embedded": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "label": {
+                        "type": "string",
+                        "example": "Gelderland"
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "object",
+                            "properties": {
+                              "href": {
+                                "type": "string",
+                                "example": "/provinces/1"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/provinces/{provinceId}": {
+      "get": {
+        "summary": "Enkele provincie",
+        "description": "Provincie met Geo informatie en bijbehorende gemeenten.",
+        "parameters": [
+          {
+            "name": "provinceId",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "example": "Gelderland"
+                },
+                "geoJson": {
+                  "$ref": "#/definitions/GeoJsonObject"
+                },
+                "municipalities": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "example": "Nijmegen"
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "object",
+                            "properties": {
+                              "href": {
+                                "type": "string",
+                                "example": "/municipalities/1"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/postcodes": {
       "get": {
         "summary": "Alle postcodes",
@@ -37,7 +414,7 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "p6": {
+                      "label": {
                         "type": "string",
                         "example": "6545CA"
                       },
@@ -175,6 +552,54 @@
                     }
                   }
                 }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "GeoJsonObject": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "Feature"
+        },
+        "geometry": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "example": "Polygon"
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "example": [
+                  [
+                    100,
+                    0
+                  ],
+                  [
+                    101,
+                    0
+                  ],
+                  [
+                    101,
+                    1
+                  ],
+                  [
+                    100,
+                    1
+                  ],
+                  [
+                    100,
+                    0
+                  ]
+                ]
               }
             }
           }
