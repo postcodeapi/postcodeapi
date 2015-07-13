@@ -389,6 +389,217 @@
         }
       }
     },
+    "/addresses": {
+      "get": {
+        "summary": "Alle adressen",
+        "description": "Alle adressen in Nederland, gepagineerd per 100 records",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "default": 1,
+            "description": "Paginanummer voor paginering"
+          },
+          {
+            "name": "postcodeArea",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "Filteren op postcodegebied in *P4* formaat (6545)"
+          },
+          {
+            "name": "postcode",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Filteren op postcode in *P6* formaat (6545CA)"
+          },
+          {
+            "name": "number",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "description": "Filteren op huisnummer (29)"
+          },
+          {
+            "name": "addition",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Filteren op huisnummer toevoeging (U-31)"
+          },
+          {
+            "name": "street",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Filteren op straatnaam (Binderskampweg)"
+          },
+          {
+            "name": "wgs84",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "description": "Komma gescheiden lat,lon (GPS) coÃ¶rdinaten om te sorteren op afstand (51.8463989,5.8031914)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_embedded": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "street": {
+                        "type": "string",
+                        "example": "Binderskampweg",
+                        "description": "Straat"
+                      },
+                      "number": {
+                        "type": "string",
+                        "example": 29,
+                        "description": "Huisnummer"
+                      },
+                      "addition": {
+                        "type": "string",
+                        "example": "U-31",
+                        "description": "Huisnummer toevoeging"
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "object",
+                            "properties": {
+                              "href": {
+                                "type": "string",
+                                "example": "/addresses/1",
+                                "description": "Link naar adres informatie"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "_links": {
+                  "type": "object",
+                  "properties": {
+                    "next": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "example": "/addresses?page=2",
+                          "description": "Link naar volgende pagina"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/addresses/{addressId}": {
+      "get": {
+        "summary": "Enkel adres",
+        "parameters": [
+          {
+            "name": "addressId",
+            "description": "Adres identifier",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "description": "Informatie over een adres",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "street": {
+                  "type": "string",
+                  "example": "Binderskampweg",
+                  "description": "Straat"
+                },
+                "number": {
+                  "type": "integer",
+                  "example": 29,
+                  "description": "Huisnummer"
+                },
+                "addition": {
+                  "type": "string",
+                  "example": "U-31",
+                  "description": "Huisnummer toevoeging"
+                },
+                "town": {
+                  "type": "string",
+                  "example": "Nijmegen",
+                  "description": "Woonplaats"
+                },
+                "municipality": {
+                  "type": "string",
+                  "example": "Nijmegen",
+                  "description": "Gemeente"
+                },
+                "province": {
+                  "type": "string",
+                  "example": "Gelderland",
+                  "description": "Provincie"
+                },
+                "_links": {
+                  "type": "object",
+                  "properties": {
+                    "town": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "object",
+                          "example": "/towns/1",
+                          "description": "Link naar woonplaats informatie"
+                        }
+                      }
+                    },
+                    "municipality": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "object",
+                          "example": "/municipalities/1",
+                          "description": "Link naar gemeente informatie"
+                        }
+                      }
+                    },
+                    "province": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "object",
+                          "example": "/provinces/1",
+                          "description": "Link naar provincie informatie"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/postcodes": {
       "get": {
         "summary": "Alle postcodes",
@@ -399,7 +610,8 @@
             "in": "query",
             "type": "integer",
             "required": false,
-            "default": 1
+            "default": 1,
+            "description": "Paginanummer voor paginering"
           }
         ],
         "responses": {
@@ -409,6 +621,289 @@
               "type": "object",
               "properties": {
                 "_embedded": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "example": "6545CA"
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "object",
+                            "properties": {
+                              "href": {
+                                "type": "string",
+                                "example": "/postcodes/6545CA",
+                                "description": "Link naar postcode informatie"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "_links": {
+                  "type": "object",
+                  "properties": {
+                    "next": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "example": "/postcodes?page=2",
+                          "description": "Link naar volgende pagina"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/postcodes/{postcode}": {
+      "get": {
+        "summary": "Enkele postcode",
+        "parameters": [
+          {
+            "name": "postcode",
+            "description": "Postcode in *P6* formaat (6545CA)",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "description": "Informatie over een postcode met bijbehorende adressen",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "required": [
+                "town",
+                "municipality",
+                "province",
+                "addresses",
+                "_links"
+              ],
+              "properties": {
+                "town": {
+                  "type": "string",
+                  "example": "Nijmegen",
+                  "description": "Woonplaats"
+                },
+                "municipality": {
+                  "type": "string",
+                  "example": "Nijmegen",
+                  "description": "Gemeente"
+                },
+                "province": {
+                  "type": "string",
+                  "example": "Gelderland",
+                  "description": "Provincie"
+                },
+                "streets": {
+                  "type": "array",
+                  "example": [
+                    "Binderskampweg",
+                    "Kronenburgersingel"
+                  ],
+                  "description": "Ontdubbelde straten die binnen deze postcode vallen"
+                },
+                "addresses": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "street": {
+                        "type": "string",
+                        "example": "Binderskampweg",
+                        "description": "Straat"
+                      },
+                      "number": {
+                        "type": "string",
+                        "example": 29,
+                        "description": "Huisnummer"
+                      },
+                      "addition": {
+                        "type": "string",
+                        "example": "U-31",
+                        "description": "Huisnummer toevoeging"
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "object",
+                            "properties": {
+                              "href": {
+                                "type": "string",
+                                "example": "/addresses/1",
+                                "description": "Link naar adres informatie"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "_links": {
+                  "type": "object",
+                  "properties": {
+                    "town": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "object",
+                          "example": "/towns/1",
+                          "description": "Link naar woonplaats informatie"
+                        }
+                      }
+                    },
+                    "municipality": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "object",
+                          "example": "/municipalities/1",
+                          "description": "Link naar gemeente informatie"
+                        }
+                      }
+                    },
+                    "province": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "object",
+                          "example": "/provinces/1",
+                          "description": "Link naar pronvincie informatie"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/postcode-areas": {
+      "get": {
+        "summary": "Alle postcodegebieden",
+        "description": "Alle postcodegebieden in Nederland, gepagineerd per 100 records",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "required": false,
+            "default": 1,
+            "description": "Paginanummer voor paginering"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_embedded": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string",
+                        "example": 6545
+                      },
+                      "_links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "object",
+                            "properties": {
+                              "href": {
+                                "type": "string",
+                                "example": "/postcode-areas/6545"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "_links": {
+                  "type": "object",
+                  "properties": {
+                    "next": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "example": "/postcode-areas?page=2"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/postcode-areas/{postcodeArea}": {
+      "get": {
+        "summary": "Enkel postcodegebied",
+        "parameters": [
+          {
+            "name": "postcodeArea",
+            "description": "Postcodegebied in *P4* formaat (6545)",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "description": "Informatie over een postcodegebied met bijbehorende postcodes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "required": [
+                "town",
+                "municipality",
+                "province",
+                "addresses",
+                "_links"
+              ],
+              "properties": {
+                "town": {
+                  "description": "Woonplaats",
+                  "type": "string",
+                  "example": "Nijmegen"
+                },
+                "municipality": {
+                  "description": "Gemeente",
+                  "type": "string",
+                  "example": "Nijmegen"
+                },
+                "province": {
+                  "description": "Provincie",
+                  "type": "string",
+                  "example": "Gelderland"
+                },
+                "postcodes": {
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -437,96 +932,11 @@
                 "_links": {
                   "type": "object",
                   "properties": {
-                    "next": {
-                      "type": "object",
-                      "properties": {
-                        "href": {
-                          "type": "string",
-                          "example": "/postcodes?page=2"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/postcodes/{postcode}": {
-      "get": {
-        "summary": "Enkele postcode",
-        "parameters": [
-          {
-            "name": "postcode",
-            "description": "Postcode in P4 (6545), P5 (6545C) of P6 (6545CA) formaat",
-            "in": "path",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "description": "Informatie over één postcodegebied",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "town": {
-                  "type": "string",
-                  "example": "Nijmegen"
-                },
-                "municipality": {
-                  "type": "string",
-                  "example": "Nijmegen"
-                },
-                "province": {
-                  "type": "string",
-                  "example": "Gelderland"
-                },
-                "addresses": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "street": {
-                        "type": "string",
-                        "example": "Binderskampweg"
-                      },
-                      "housenumber": {
-                        "type": "string",
-                        "example": 29
-                      },
-                      "addition": {
-                        "type": "string",
-                        "example": "U31"
-                      },
-                      "_links": {
-                        "type": "object",
-                        "properties": {
-                          "self": {
-                            "type": "object",
-                            "properties": {
-                              "href": {
-                                "type": "string",
-                                "example": "/6545CA/29/U31"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "_links": {
-                  "type": "object",
-                  "properties": {
                     "town": {
                       "type": "object",
                       "properties": {
                         "href": {
-                          "type": "object",
+                          "type": "string",
                           "example": "/towns/1"
                         }
                       }
@@ -535,7 +945,7 @@
                       "type": "object",
                       "properties": {
                         "href": {
-                          "type": "object",
+                          "type": "string",
                           "example": "/municipalities/1"
                         }
                       }
@@ -544,8 +954,17 @@
                       "type": "object",
                       "properties": {
                         "href": {
-                          "type": "object",
+                          "type": "string",
                           "example": "/provinces/1"
+                        }
+                      }
+                    },
+                    "addresses": {
+                      "type": "object",
+                      "properties": {
+                        "href": {
+                          "type": "string",
+                          "example": "/addresses?postcodeArea=6545"
                         }
                       }
                     }
