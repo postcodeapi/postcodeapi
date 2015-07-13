@@ -256,7 +256,8 @@
             "name": "townId",
             "in": "path",
             "type": "integer",
-            "required": true
+            "required": true,
+            "x-example": 1
           }
         ],
         "responses": {
@@ -467,6 +468,7 @@
             "type": "integer",
             "required": false,
             "default": 1,
+            "x-example": 1,
             "description": "Paginanummer voor paginering"
           },
           {
@@ -474,42 +476,48 @@
             "in": "query",
             "type": "integer",
             "required": false,
-            "description": "Filteren op postcodegebied in *P4* formaat (6545)"
+            "x-example": 6545,
+            "description": "Filteren op postcodegebied in *P4* formaat"
           },
           {
             "name": "postcode",
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Filteren op postcode in *P6* formaat (6545CA)"
+            "x-example": "6545CA",
+            "description": "Filteren op postcode in *P6* formaat"
           },
           {
             "name": "number",
             "in": "query",
             "type": "integer",
             "required": false,
-            "description": "Filteren op huisnummer (29)"
+            "x-example": 29,
+            "description": "Filteren op huisnummer"
           },
           {
             "name": "addition",
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Filteren op huisnummer toevoeging (U-31)"
+            "x-example": "U-31",
+            "description": "Filteren op huisnummer toevoeging"
           },
           {
             "name": "street",
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Filteren op straatnaam (Binderskampweg)"
+            "x-example": "Binderskampweg",
+            "description": "Filteren op straatnaam"
           },
           {
             "name": "wgs84",
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Komma gescheiden lat,lon (GPS) coördinaten om te sorteren op afstand (51.8463989,5.8031914)"
+            "x-example": "51.8463989,5.8031914",
+            "description": "Komma gescheiden lat,lon (GPS) coordinaten om te sorteren op afstand"
           }
         ],
         "responses": {
@@ -687,6 +695,7 @@
             "type": "integer",
             "required": false,
             "default": 1,
+            "x-example": 1,
             "description": "Paginanummer voor paginering"
           }
         ],
@@ -753,10 +762,11 @@
         "parameters": [
           {
             "name": "postcode",
-            "description": "Postcode in *P6* formaat (6545CA)",
             "in": "path",
             "type": "string",
-            "required": true
+            "required": true,
+            "x-example": "6545CA",
+            "description": "Postcode in *P6* formaat"
           }
         ],
         "description": "Informatie over een postcode met bijbehorende adressen",
@@ -892,6 +902,7 @@
             "type": "integer",
             "required": false,
             "default": 1,
+            "x-example": 1,
             "description": "Paginanummer voor paginering"
           }
         ],
@@ -956,10 +967,11 @@
         "parameters": [
           {
             "name": "postcodeArea",
-            "description": "Postcodegebied in *P4* formaat (6545)",
             "in": "path",
             "type": "string",
-            "required": true
+            "required": true,
+            "x-example": 6545,
+            "description": "Postcodegebied in *P4* formaat"
           }
         ],
         "description": "Informatie over een postcodegebied met bijbehorende postcodes",
