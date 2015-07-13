@@ -13,9 +13,38 @@
   "produces": [
     "application/json"
   ],
+  "tags": [
+    {
+      "name": "address",
+      "description": "Adres calls"
+    },
+    {
+      "name": "postcode",
+      "description": "Postcode calls"
+    },
+    {
+      "name": "postcodeArea",
+      "description": "Postcodegebied calls"
+    },
+    {
+      "name": "town",
+      "description": "Woonplaats calls"
+    },
+    {
+      "name": "municipality",
+      "description": "Gemeente calls"
+    },
+    {
+      "name": "province",
+      "description": "Provincie calls"
+    }
+  ],
   "paths": {
     "/municipalities": {
       "get": {
+        "tags": [
+          "municipality"
+        ],
         "summary": "Alle gemeentes",
         "description": "Alle gemeentes in Nederland",
         "responses": {
@@ -62,6 +91,9 @@
     },
     "/municipalities/{municipalityId}": {
       "get": {
+        "tags": [
+          "municipality"
+        ],
         "summary": "Enkele gemeente",
         "description": "Gemeente met Geo informatie en bijbehorende woonplaatsen.",
         "parameters": [
@@ -146,6 +178,9 @@
     },
     "/towns": {
       "get": {
+        "tags": [
+          "town"
+        ],
         "summary": "Alle woonplaatsen",
         "description": "Alle woonplaatsen in Nederland",
         "responses": {
@@ -192,6 +227,9 @@
     },
     "/towns/{townId}": {
       "get": {
+        "tags": [
+          "town"
+        ],
         "summary": "Enkele woonplaats",
         "description": "Woonplaats met Geo informatie en bijbehorende postcodegebieden.",
         "parameters": [
@@ -289,6 +327,9 @@
     },
     "/provinces": {
       "get": {
+        "tags": [
+          "province"
+        ],
         "summary": "Alle provincies",
         "description": "Alle provincies in Nederland",
         "responses": {
@@ -335,6 +376,9 @@
     },
     "/provinces/{provinceId}": {
       "get": {
+        "tags": [
+          "province"
+        ],
         "summary": "Enkele provincie",
         "description": "Provincie met Geo informatie en bijbehorende gemeenten.",
         "parameters": [
@@ -392,6 +436,9 @@
     },
     "/addresses": {
       "get": {
+        "tags": [
+          "address"
+        ],
         "summary": "Alle adressen",
         "description": "Alle adressen in Nederland, gepagineerd per 100 records",
         "parameters": [
@@ -443,7 +490,7 @@
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Komma gescheiden lat,lon (GPS) coÃ¶rdinaten om te sorteren op afstand (51.8463989,5.8031914)"
+            "description": "Komma gescheiden lat, lon (GPS) coördinaten om te sorteren op afstand (51.8463989,5.8031914)"
           }
         ],
         "responses": {
@@ -513,6 +560,9 @@
     },
     "/addresses/{addressId}": {
       "get": {
+        "tags": [
+          "address"
+        ],
         "summary": "Enkel adres",
         "parameters": [
           {
@@ -603,6 +653,9 @@
     },
     "/postcodes": {
       "get": {
+        "tags": [
+          "postcode"
+        ],
         "summary": "Alle postcodes",
         "description": "Alle postcodes in Nederland, gepagineerd per 100 records",
         "parameters": [
@@ -671,6 +724,9 @@
     },
     "/postcodes/{postcode}": {
       "get": {
+        "tags": [
+          "postcode"
+        ],
         "summary": "Enkele postcode",
         "parameters": [
           {
@@ -799,6 +855,9 @@
     },
     "/postcode-areas": {
       "get": {
+        "tags": [
+          "postcode-area"
+        ],
         "summary": "Alle postcodegebieden",
         "description": "Alle postcodegebieden in Nederland, gepagineerd per 100 records",
         "parameters": [
@@ -865,6 +924,9 @@
     },
     "/postcode-areas/{postcodeArea}": {
       "get": {
+        "tags": [
+          "postcode-area"
+        ],
         "summary": "Enkel postcodegebied",
         "parameters": [
           {
