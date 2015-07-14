@@ -5,10 +5,10 @@
 </td></tr><tr><td>postcodeArea</td><td>Integer</td><td>6545</td><td><p>Filteren op postcodegebied in <em>P4</em> formaat</p>
 </td></tr><tr><td>postcode</td><td>String</td><td>6545CA</td><td><p>Filteren op postcode in <em>P6</em> formaat</p>
 </td></tr><tr><td>number</td><td>Integer</td><td>29</td><td><p>Filteren op huisnummer</p>
-</td></tr><tr><td>street</td><td>String</td><td>Binderskampweg</td><td><p>Filteren op straatnaam (fuzzy)</p>
-</td></tr><tr><td>town</td><td>String</td><td>Nijmegen</td><td><p>Filteren op woonplaatsnaam (fuzzy)</p>
-</td></tr><tr><td>municipality</td><td>String</td><td>Nijmegen</td><td><p>Filteren op gemeentenaam (fuzzy)</p>
-</td></tr><tr><td>province</td><td>String</td><td>Nijmegen</td><td><p>Filteren op provincienaam (fuzzy)</p>
+</td></tr><tr><td>street</td><td>String</td><td>Binderskampweg</td><td><p>Filteren op straatnaam</p>
+</td></tr><tr><td>cityId</td><td>Integer</td><td>1</td><td><p>Filteren op woonplaats identifier</p>
+</td></tr><tr><td>municipalityId</td><td>Integer</td><td>3030</td><td><p>Filteren op gemeente identifier</p>
+</td></tr><tr><td>provinceId</td><td>Integer</td><td>1</td><td><p>Filteren op provincie identifier</p>
 </td></tr><tr><td>wgs84</td><td>String</td><td>51.8463989,5.8031914</td><td><p>Komma gescheiden lat/lon (GPS) coordinaten om te sorteren op afstand</p>
 </td></tr></tbody></table><hr><div class="call-heading">Response messages</div><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr><tr><td colspan="2"><pre><code class="json">{
   "<span class="hljs-attribute">_embedded</span>": <span class="hljs-value">[
@@ -37,58 +37,75 @@
   "<span class="hljs-attribute">number</span>": <span class="hljs-value"><span class="hljs-number">29</span></span>,
   "<span class="hljs-attribute">letter</span>": <span class="hljs-value"><span class="hljs-string">"U"</span></span>,
   "<span class="hljs-attribute">addition</span>": <span class="hljs-value"><span class="hljs-number">31</span></span>,
-  "<span class="hljs-attribute">town</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span></span>,
-  "<span class="hljs-attribute">municipality</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span></span>,
-  "<span class="hljs-attribute">province</span>": <span class="hljs-value"><span class="hljs-string">"Gelderland"</span></span>,
+  "<span class="hljs-attribute">city</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+    "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">municipality</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">3030</span></span>,
+    "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">province</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+    "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Gelderland"</span>
+  </span>}</span>,
   "<span class="hljs-attribute">distance</span>": <span class="hljs-value"><span class="hljs-number">23.1</span></span>,
-  "<span class="hljs-attribute">geoJson</span>": <span class="hljs-value">{
-    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Feature"</span></span>,
-    "<span class="hljs-attribute">geometry</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Polygon"</span></span>,
-      "<span class="hljs-attribute">coordinates</span>": <span class="hljs-value">[
-        [
-          [
-            <span class="hljs-number">100</span>,
-            <span class="hljs-number">0</span>
-          ],
-          [
-            <span class="hljs-number">101</span>,
-            <span class="hljs-number">0</span>
-          ],
-          [
-            <span class="hljs-number">101</span>,
-            <span class="hljs-number">1</span>
-          ],
-          [
-            <span class="hljs-number">100</span>,
-            <span class="hljs-number">1</span>
-          ],
-          [
-            <span class="hljs-number">100</span>,
-            <span class="hljs-number">0</span>
-          ]
-        ]
-      ]
+  "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Verblijfsobject"</span></span>,
+  "<span class="hljs-attribute">purpose</span>": <span class="hljs-value"><span class="hljs-string">"woonfunctie"</span></span>,
+  "<span class="hljs-attribute">geo</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">center</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">wgs84</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Feature"</span></span>,
+        "<span class="hljs-attribute">geometry</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Point"</span></span>,
+          "<span class="hljs-attribute">coordinates</span>": <span class="hljs-value">[
+            <span class="hljs-number">6.861053257304809</span>,
+            <span class="hljs-number">53.32271304611565</span>
+          ]</span>,
+          "<span class="hljs-attribute">crs</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"name"</span></span>,
+            "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"urn:ogc:def:crs:OGC:1.3:CRS84"</span>
+            </span>}
+          </span>}
+        </span>}
+      </span>}</span>,
+      "<span class="hljs-attribute">rd</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Feature"</span></span>,
+        "<span class="hljs-attribute">geometry</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Point"</span></span>,
+          "<span class="hljs-attribute">coordinates</span>": <span class="hljs-value">[
+            <span class="hljs-number">253207</span>,
+            <span class="hljs-number">593924</span>
+          ]</span>,
+          "<span class="hljs-attribute">crs</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"name"</span></span>,
+            "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"urn:ogc:def:crs:EPSG::28992"</span>
+            </span>}
+          </span>}
+        </span>}
+      </span>}
     </span>}
   </span>}</span>,
   "<span class="hljs-attribute">_links</span>": <span class="hljs-value">{
-    "<span class="hljs-attribute">town</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+    "<span class="hljs-attribute">city</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"https://api.plaatsapi.nu/cities/3030"</span>
     </span>}</span>,
     "<span class="hljs-attribute">municipality</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"https://api.plaatsapi.nu/municipalities/01268"</span>
     </span>}</span>,
     "<span class="hljs-attribute">province</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"https://api.plaatsapi.nu/provinces/1"</span>
     </span>}
   </span>}
 </span>}</code></pre></td></tr></tbody></table></div></div><h2>Postcode calls</h2><div id="/postcodes|get" class="panel panel-default"><div class="panel-heading"><h3>Alle postcodes</h3><span class="label label-get">GET</span></div><div class="panel-body"><p>Alle postcodes in Nederland, gepagineerd per 100 records</p>
 <p><strong>URL: </strong><code>/postcodes</code></p><hr><div class="call-heading">Parameters (* required)</div><table class="table"><thead><th>Name</th><th>Type</th><th>Example</th><th>Description</th></thead><tbody><tr><td>page (default: 1)</td><td>Integer</td><td>1</td><td><p>Paginanummer voor paginering</p>
 </td></tr><tr><td>postcodeArea</td><td>Integer</td><td>6545</td><td><p>Filteren op postcodegebied in <em>P4</em> formaat</p>
-</td></tr><tr><td>street</td><td>String</td><td>Binderskampweg</td><td><p>Filteren op straatnaam (fuzzy)</p>
-</td></tr><tr><td>town</td><td>String</td><td>Nijmegen</td><td><p>Filteren op woonplaatsnaam (fuzzy)</p>
-</td></tr><tr><td>municipality</td><td>String</td><td>Nijmegen</td><td><p>Filteren op gemeentenaam (fuzzy)</p>
-</td></tr><tr><td>province</td><td>String</td><td>Nijmegen</td><td><p>Filteren op provincienaam (fuzzy)</p>
+</td></tr><tr><td>street</td><td>String</td><td>Binderskampweg</td><td><p>Filteren op straatnaam</p>
+</td></tr><tr><td>cityId</td><td>Integer</td><td>1</td><td><p>Filteren op woonplaats identifier</p>
+</td></tr><tr><td>municipalityId</td><td>Integer</td><td>3030</td><td><p>Filteren op gemeente identifier</p>
+</td></tr><tr><td>provinceId</td><td>Integer</td><td>1</td><td><p>Filteren op provincie identifier</p>
 </td></tr><tr><td>wgs84</td><td>String</td><td>51.8463989,5.8031914</td><td><p>Komma gescheiden lat/lon (GPS) coordinaten om te sorteren op afstand</p>
 </td></tr></tbody></table><hr><div class="call-heading">Response messages</div><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr><tr><td colspan="2"><pre><code class="json">{
   "<span class="hljs-attribute">_embedded</span>": <span class="hljs-value">[
@@ -110,42 +127,57 @@
 <p><strong>URL: </strong><code>/postcodes/{p6}</code></p><hr><div class="call-heading">Parameters (* required)</div><table class="table"><thead><th>Name</th><th>Type</th><th>Example</th><th>Description</th></thead><tbody><tr><td>p6*</td><td>String</td><td>6545CA</td><td><p>Postcode in <em>P6</em> formaat</p>
 </td></tr><tr><td>wgs84</td><td>String</td><td>51.8463989,5.8031914</td><td><p>Komma gescheiden lat/lon (GPS) coordinaten om de afstand tot deze postcode te berekenen</p>
 </td></tr></tbody></table><hr><div class="call-heading">Response messages</div><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr><tr><td colspan="2"><pre><code class="json">{
-  "<span class="hljs-attribute">town</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span></span>,
-  "<span class="hljs-attribute">municipality</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span></span>,
-  "<span class="hljs-attribute">province</span>": <span class="hljs-value"><span class="hljs-string">"Gelderland"</span></span>,
+  "<span class="hljs-attribute">city</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+    "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">municipality</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">3030</span></span>,
+    "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">province</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+    "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Gelderland"</span>
+  </span>}</span>,
   "<span class="hljs-attribute">streets</span>": <span class="hljs-value">[
     <span class="hljs-string">"Binderskampweg"</span>,
     <span class="hljs-string">"Kronenburgersingel"</span>
   ]</span>,
   "<span class="hljs-attribute">distance</span>": <span class="hljs-value"><span class="hljs-number">23.1</span></span>,
-  "<span class="hljs-attribute">geoJson</span>": <span class="hljs-value">{
-    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Feature"</span></span>,
-    "<span class="hljs-attribute">geometry</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Polygon"</span></span>,
-      "<span class="hljs-attribute">coordinates</span>": <span class="hljs-value">[
-        [
-          [
-            <span class="hljs-number">100</span>,
-            <span class="hljs-number">0</span>
-          ],
-          [
-            <span class="hljs-number">101</span>,
-            <span class="hljs-number">0</span>
-          ],
-          [
-            <span class="hljs-number">101</span>,
-            <span class="hljs-number">1</span>
-          ],
-          [
-            <span class="hljs-number">100</span>,
-            <span class="hljs-number">1</span>
-          ],
-          [
-            <span class="hljs-number">100</span>,
-            <span class="hljs-number">0</span>
-          ]
-        ]
-      ]
+  "<span class="hljs-attribute">geo</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">center</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">wgs84</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Feature"</span></span>,
+        "<span class="hljs-attribute">geometry</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Point"</span></span>,
+          "<span class="hljs-attribute">coordinates</span>": <span class="hljs-value">[
+            <span class="hljs-number">6.861053257304809</span>,
+            <span class="hljs-number">53.32271304611565</span>
+          ]</span>,
+          "<span class="hljs-attribute">crs</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"name"</span></span>,
+            "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"urn:ogc:def:crs:OGC:1.3:CRS84"</span>
+            </span>}
+          </span>}
+        </span>}
+      </span>}</span>,
+      "<span class="hljs-attribute">rd</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Feature"</span></span>,
+        "<span class="hljs-attribute">geometry</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Point"</span></span>,
+          "<span class="hljs-attribute">coordinates</span>": <span class="hljs-value">[
+            <span class="hljs-number">253207</span>,
+            <span class="hljs-number">593924</span>
+          ]</span>,
+          "<span class="hljs-attribute">crs</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"name"</span></span>,
+            "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+              "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"urn:ogc:def:crs:EPSG::28992"</span>
+            </span>}
+          </span>}
+        </span>}
+      </span>}
     </span>}
   </span>}</span>,
   "<span class="hljs-attribute">addresses</span>": <span class="hljs-value">[
@@ -162,14 +194,14 @@
     </span>}
   ]</span>,
   "<span class="hljs-attribute">_links</span>": <span class="hljs-value">{
-    "<span class="hljs-attribute">town</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+    "<span class="hljs-attribute">city</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"https://api.plaatsapi.nu/cities/3030"</span>
     </span>}</span>,
     "<span class="hljs-attribute">municipality</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"https://api.plaatsapi.nu/municipalities/01268"</span>
     </span>}</span>,
     "<span class="hljs-attribute">province</span>": <span class="hljs-value">{
-      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"https://api.plaatsapi.nu/provinces/1"</span>
     </span>}
   </span>}
 </span>}</code></pre></td></tr></tbody></table></div></div></div></div><footer><div class="row footer"><p>This documentation is generated by <a href="https://github.com/apiwise/apiranto">Apiranto</a>.</p></div></footer></div></body></html>
