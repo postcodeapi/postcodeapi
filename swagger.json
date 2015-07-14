@@ -53,7 +53,7 @@
           "address"
         ],
         "summary": "Alle adressen",
-        "description": "Alle adressen in Nederland, gepagineerd per 100 records",
+        "description": "Alle adressen in Nederland, gepagineerd per 20 records",
         "parameters": [
           {
             "name": "page",
@@ -160,6 +160,37 @@
                         "example": "31",
                         "description": "Huisnummer toevoeging"
                       },
+                      "city": {
+                        "$ref": "#/definitions/City"
+                      },
+                      "municipality": {
+                        "$ref": "#/definitions/Municipality"
+                      },
+                      "province": {
+                        "$ref": "#/definitions/Province"
+                      },
+                      "distance": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 23.1,
+                        "description": "Afstand (in km) tot WGS84 coordinaten als deze zijn opgegeven"
+                      },
+                      "geo": {
+                        "type": "object",
+                        "properties": {
+                          "center": {
+                            "type": "object",
+                            "properties": {
+                              "wgs84": {
+                                "$ref": "#/definitions/Wgs84Center"
+                              },
+                              "rd": {
+                                "$ref": "#/definitions/RdCenter"
+                              }
+                            }
+                          }
+                        }
+                      },
                       "_links": {
                         "type": "object",
                         "properties": {
@@ -168,7 +199,7 @@
                             "properties": {
                               "href": {
                                 "type": "string",
-                                "example": "/addresses/1",
+                                "example": "/addresses/268200000075156",
                                 "description": "Link naar adres informatie"
                               }
                             }
@@ -254,6 +285,11 @@
                   "type": "string",
                   "example": "31",
                   "description": "Huisnummer toevoeging"
+                },
+                "postcode": {
+                  "type": "string",
+                  "example": "6545CA",
+                  "description": "Postcode in *P6* formaat"
                 },
                 "city": {
                   "$ref": "#/definitions/City"
@@ -343,7 +379,7 @@
           "postcode"
         ],
         "summary": "Alle postcodes",
-        "description": "Alle postcodes in Nederland, gepagineerd per 100 records",
+        "description": "Alle postcodes in Nederland, gepagineerd per 20 records",
         "parameters": [
           {
             "name": "page",
@@ -414,7 +450,7 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "p6": {
+                      "postcode": {
                         "type": "string",
                         "example": "6545CA"
                       },
@@ -457,7 +493,7 @@
         }
       }
     },
-    "/postcodes/{p6}": {
+    "/postcodes/{postcode}": {
       "get": {
         "tags": [
           "postcode"
@@ -465,7 +501,7 @@
         "summary": "Enkele postcode",
         "parameters": [
           {
-            "name": "p6",
+            "name": "postcode",
             "in": "path",
             "type": "string",
             "required": true,
@@ -488,7 +524,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "p6": {
+                "postcode": {
                   "type": "string",
                   "example": "6545CA",
                   "description": "Postcode"
@@ -622,7 +658,7 @@
           "postcode-area"
         ],
         "summary": "Alle postcodegebieden",
-        "description": "Alle postcodegebieden in Nederland, gepagineerd per 100 records",
+        "description": "Alle postcodegebieden in Nederland, gepagineerd per 20 records",
         "parameters": [
           {
             "name": "page",
@@ -686,7 +722,7 @@
         }
       }
     },
-    "/postcode-areas/{p4}": {
+    "/postcode-areas/{postcodeArea}": {
       "get": {
         "tags": [
           "postcode-area"
@@ -694,7 +730,7 @@
         "summary": "Enkel postcodegebied",
         "parameters": [
           {
-            "name": "p4",
+            "name": "postcodeArea",
             "in": "path",
             "type": "string",
             "required": true,
@@ -717,7 +753,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "p4": {
+                "postcodeArea": {
                   "type": "string",
                   "example": 6545,
                   "description": "Postodegebied"
