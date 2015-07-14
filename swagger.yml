@@ -1,0 +1,663 @@
+swagger: "2.0"
+info:
+  version: "2.0"
+  title: Postcode API
+  description: |
+    De Postcode API gebruikt Open Data van Kadaster's [BAG](http://bag.kadaster.nl) en Open Data van het [CBS](http://www.cbs.nl). Alle mogelijke API calls zijn beschreven in deze specificatie. Voor support en suggesties voor verbeteringen of feature requests verwijzen we je naar de *issues* sectie onze Open Source Github repository: https://github.com/apiwise/postcodeapi.
+
+    Alle responses van deze API bevatten [HAL](http://stateless.co/hal_specification.html) *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind je in de `_links` objecten.
+  contact:
+    name: Apiwise
+    url: http://www.apiwise.nl
+    email: info@apiwise.nl
+host: api.postcodeapi.nu
+basePath: /v2
+schemes:
+  - https
+produces:
+  - application/json
+securityDefinitions:
+  Api-Key:
+    type: apiKey
+    name: Api-Key
+    in: header
+    description: |
+      De gehele API is beveiligd met een Api Key. Deze key heb je gekregen tijdens de registratieprocedure. Wij gebruiken deze vorm van authenticatie om het gebruik van deze dienst te kunnen monitoren en contact op te kunnen nemen met de afnemer mocht er (onbewust) misbruik van de dienst gemaakt worden.
+
+      Het meesturen van de Api Key gebeurt met de zogenaamde `Api-Key` request header. Bijvoorbeeld: `Api-Key: a0B1c2D34D5c6b7a8`.
+security:
+  - Api-Key: []
+tags:
+  - name: address
+    description: Adres calls
+  - name: postcode
+    description: Postcode calls
+  - name: postcodeArea
+    description: Postcodegebied calls
+paths:
+  /addresses:
+    get:
+      tags: [address]
+      summary: Alle adressen
+      description: Alle adressen in Nederland, gepagineerd per 100 records
+      parameters:
+        - name: page
+          in: query
+          type: integer
+          required: false
+          default: 1
+          x-example: 1
+          description: Paginanummer voor paginering
+        - name: postcodeArea
+          in: query
+          type: integer
+          required: false
+          x-example: 6545
+          description: Filteren op postcodegebied in *P4* formaat
+        - name: postcode
+          in: query
+          type: string
+          required: false
+          x-example: 6545CA
+          description: Filteren op postcode in *P6* formaat
+        - name: number
+          in: query
+          type: integer
+          required: false
+          x-example: 29
+          description: Filteren op huisnummer
+        - name: street
+          in: query
+          type: string
+          required: false
+          x-example: Binderskampweg
+          description: Filteren op straatnaam
+        - name: cityId
+          in: query
+          type: string
+          required: false
+          x-example: 1
+          description: Filteren op identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
+        - name: municipalityId
+          in: query
+          type: string
+          required: false
+          x-example: 3030
+          description: Filteren op identifier van de gemeente, gelijk aan die van de overheidstandaard BRP
+        - name: provinceId
+          in: query
+          type: string
+          required: false
+          x-example: 1
+          description: Filteren op identifier van de gemeente, gelijk aan die van de overheidstandaard BRP
+        - name: wgs84
+          in: query
+          type: string
+          required: false
+          x-example: 51.8463989,5.8031914
+          description: Komma gescheiden lat/lon (GPS) coordinaten om te sorteren op afstand
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              _embedded:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                      example: Binderskampweg
+                      description: Straat
+                    number:
+                      type: integer
+                      example: 29
+                      description: Huisnummer
+                    letter:
+                      type: string
+                      example: U
+                      description: Letter
+                    addition:
+                      type: string
+                      example: 31
+                      description: Huisnummer toevoeging
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /addresses/1
+                              description: Link naar adres informatie
+              _links:
+                type: object
+                properties:
+                  next:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: /addresses?page=2
+                        description: Link naar volgende pagina
+  /addresses/{id}:
+    get:
+      tags: [address]
+      summary: Enkel adres
+      parameters:
+        - name: id
+          description: Identifier van het adres, gelijk aan die van de overheidstandaard BAG
+          in: path
+          type: string
+          required: true
+          x-example: 268200000075156
+        - name: wgs84
+          in: query
+          type: string
+          required: false
+          x-example: 51.8463989,5.8031914
+          description: Komma gescheiden lat/lon (GPS) coordinaten om de afstand tot dit adres te berekenen
+      description: Informatie over een adres
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: 268200000075156
+                description: Identifier van het adres, gelijk aan die van de BAG
+              street:
+                type: string
+                example: Binderskampweg
+                description: Straat
+              number:
+                type: integer
+                example: 29
+                description: Huisnummer
+              letter:
+                type: string
+                example: U
+                description: Letter
+              addition:
+                type: string
+                example: 31
+                description: Huisnummer toevoeging
+              city:
+                $ref: "#/definitions/City"
+              municipality:
+                $ref: "#/definitions/Municipality"
+              province:
+                $ref: "#/definitions/Province"
+              distance:
+                type: number
+                format: float
+                example: 23.1
+                description: Afstand (in km) tot WGS84 coordinaten als deze zijn opgegeven
+              type:
+                type: string
+                example: Verblijfsobject
+                description: Type gebouw van het adres volgens de BAG
+              purpose:
+                type: string
+                example: woonfunctie
+                description: Bestemming van het adres volgens de BAG
+              geo:
+                type: object
+                properties:
+                  center:
+                    type: object
+                    properties:
+                      wgs84:
+                        $ref: "#/definitions/Wgs84Center"
+                      rd:
+                        $ref: "#/definitions/RdCenter"
+              _links:
+                type: object
+                properties:
+                  city:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api.plaatsapi.nu/cities/3030
+                        description: Link naar woonplaats informatie van Plaats API
+                  municipality:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api.plaatsapi.nu/municipalities/01268
+                        description: Link naar gemeente informatie van Plaats API
+                  province:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api.plaatsapi.nu/provinces/1
+                        description: Link naar provincie informatie van Plaats API
+  /postcodes:
+    get:
+      tags: [postcode]
+      summary: Alle postcodes
+      description: Alle postcodes in Nederland, gepagineerd per 100 records
+      parameters:
+        - name: page
+          in: query
+          type: integer
+          required: false
+          default: 1
+          x-example: 1
+          description: Paginanummer voor paginering
+        - name: postcodeArea
+          in: query
+          type: integer
+          required: false
+          x-example: 6545
+          description: Filteren op postcodegebied in *P4* formaat
+        - name: street
+          in: query
+          type: string
+          required: false
+          x-example: Binderskampweg
+          description: Filteren op straatnaam
+        - name: cityId
+          in: query
+          type: string
+          required: false
+          x-example: 1
+          description: Filteren op identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
+        - name: municipalityId
+          in: query
+          type: string
+          required: false
+          x-example: 3030
+          description: Filteren op identifier van de gemeente, gelijk aan die van de overheidstandaard BRP
+        - name: provinceId
+          in: query
+          type: string
+          required: false
+          x-example: 1
+          description: Filteren op identifier van de provincie, gelijk aan die van de overheidstandaard BRP
+        - name: wgs84
+          in: query
+          type: string
+          required: false
+          x-example: 51.8463989,5.8031914
+          description: Komma gescheiden lat/lon (GPS) coordinaten om te sorteren op afstand
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              _embedded:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    p6:
+                      type: string
+                      example: 6545CA
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /postcodes/6545CA
+                              description: Link naar postcode informatie
+              _links:
+                type: object
+                properties:
+                  next:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: /postcodes?page=2
+                        description: Link naar volgende pagina
+  /postcodes/{p6}:
+    get:
+      tags: [postcode]
+      summary: Enkele postcode
+      parameters:
+        - name: p6
+          in: path
+          type: string
+          required: true
+          x-example: 6545CA
+          description: Postcode in *P6* formaat
+        - name: wgs84
+          in: query
+          type: string
+          required: false
+          x-example: 51.8463989,5.8031914
+          description: Komma gescheiden lat/lon (GPS) coordinaten om de afstand tot deze postcode te berekenen
+      description: Informatie over een postcode met bijbehorende adressen
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              p6:
+                type: string
+                example: 6545CA
+                description: Postcode
+              city:
+                $ref: "#/definitions/City"
+              municipality:
+                $ref: "#/definitions/Municipality"
+              province:
+                $ref: "#/definitions/Province"
+              streets:
+                type: array
+                example: [Binderskampweg, Kronenburgersingel]
+                description: Ontdubbelde straten die binnen deze postcode vallen
+              distance:
+                type: number
+                format: float
+                example: 23.1
+                description: Afstand (in km) tot WGS84 coordinaten als deze zijn opgegeven
+              geo:
+                type: object
+                properties:
+                  center:
+                    type: object
+                    properties:
+                      wgs84:
+                        $ref: "#/definitions/Wgs84Center"
+                      rd:
+                        $ref: "#/definitions/RdCenter"
+              addresses:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                      example: Binderskampweg
+                      description: Straat
+                    number:
+                      type: integer
+                      example: 29
+                      description: Huisnummer
+                    letter:
+                      type: string
+                      example: U
+                      description: Letter
+                    addition:
+                      type: string
+                      example: 31
+                      description: Huisnummer toevoeging
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /addresses/268200000075156
+                              description: Link naar adres informatie
+              _links:
+                type: object
+                properties:
+                  city:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api.plaatsapi.nu/cities/3030
+                        description: Link naar woonplaats informatie van Plaats API
+                  municipality:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api.plaatsapi.nu/municipalities/01268
+                        description: Link naar gemeente informatie van Plaats API
+                  province:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: https://api.plaatsapi.nu/provinces/1
+                        description: Link naar provincie informatie van Plaats API
+  /postcode-areas:
+    get:
+      tags: [postcode-area]
+      summary: Alle postcodegebieden
+      description: Alle postcodegebieden in Nederland, gepagineerd per 100 records
+      parameters:
+        - name: page
+          in: query
+          type: integer
+          required: false
+          default: 1
+          x-example: 1
+          description: Paginanummer voor paginering
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              _embedded:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    label:
+                      type: string
+                      example: 6545
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /postcode-areas/6545
+              _links:
+                type: object
+                properties:
+                  next:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: /postcode-areas?page=2
+  /postcode-areas/{p4}:
+    get:
+      tags: [postcode-area]
+      summary: Enkel postcodegebied
+      parameters:
+        - name: p4
+          in: path
+          type: string
+          required: true
+          x-example: 6545
+          description: Postcodegebied in *P4* formaat
+        - name: wgs84
+          in: query
+          type: string
+          required: false
+          x-example: 51.8463989,5.8031914
+          description: Komma gescheiden lat/lon (GPS) coordinaten om de afstand tot dit postcodegebied te berekenen
+      description: Informatie over een postcodegebied met bijbehorende postcodes
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              p4:
+                type: string
+                example: 6545
+                description: Postodegebied
+              city:
+                $ref: "#/definitions/City"
+              municipality:
+                $ref: "#/definitions/Municipality"
+              province:
+                $ref: "#/definitions/Province"
+              geo:
+                type: object
+                properties:
+                  center:
+                    type: object
+                    properties:
+                      rd:
+                        $ref: "#/definitions/RdCenter"
+                      wgs84:
+                        $ref: "#/definitions/Wgs84Center"
+              postcodes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    label:
+                      type: string
+                      example: 6545CA
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /postcodes/6545CA
+              _links:
+                type: object
+                properties:
+                  addresses:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: /addresses?postcodeArea=6545
+                  postcodes:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+                        example: /postcodes?postcodeArea=6545
+                  city:
+                    type: object
+                    properties:
+                      href:
+                        type: object
+                        example: https://api.plaatsapi.nu/cities/3030
+                        description: Link naar woonplaats informatie van Plaats API
+                  municipality:
+                    type: object
+                    properties:
+                      href:
+                        type: object
+                        example: https://api.plaatsapi.nu/municipalities/01268
+                        description: Link naar gemeente informatie van Plaats API
+                  province:
+                    type: object
+                    properties:
+                      href:
+                        type: object
+                        example: https://api.plaatsapi.nu/provinces/1
+                        description: Link naar provincie informatie van Plaats API
+definitions:
+  Province:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 1
+        description: Identifier van de provincie, gelijk aan die van de overheidstandaard BRP
+      label:
+        type: string
+        example: Gelderland
+    description: Provincie
+  Municipality:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 3030
+        description: Identifier van de gemeente, gelijk aan die van de overheidstandaard BRP
+      label:
+        type: string
+        example: Nijmegen
+    description: Gemeente
+  City:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 1
+        description: Identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
+      label:
+        type: string
+        example: Nijmegen
+    description: Woonplaats
+  Wgs84Center:
+    type: object
+    properties:
+      type:
+        type: string
+        example: Feature
+      geometry:
+        type: object
+        properties:
+          type:
+            type: string
+            example: Point
+          coordinates:
+            type: array
+            example: [6.861053257304809, 53.32271304611565]
+          crs:
+            type: object
+            properties:
+              type:
+                type: string
+                example: name
+              properties:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: urn:ogc:def:crs:OGC:1.3:CRS84
+  RdCenter:
+    type: object
+    properties:
+      type:
+        type: string
+        example: Feature
+      geometry:
+        type: object
+        properties:
+          type:
+            type: string
+            example: Point
+          coordinates:
+            type: array
+            example: [253207, 593924]
+          crs:
+            type: object
+            properties:
+              type:
+                type: string
+                example: name
+              properties:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: urn:ogc:def:crs:EPSG::28992

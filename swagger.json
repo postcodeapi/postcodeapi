@@ -1,3 +1,4 @@
+
 {
   "swagger": "2.0",
   "info": {
@@ -98,26 +99,26 @@
           {
             "name": "cityId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": false,
             "x-example": 1,
-            "description": "Filteren op woonplaats identifier"
+            "description": "Filteren op identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG"
           },
           {
             "name": "municipalityId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": false,
             "x-example": 3030,
-            "description": "Filteren op gemeente identifier"
+            "description": "Filteren op identifier van de gemeente, gelijk aan die van de overheidstandaard BRP"
           },
           {
             "name": "provinceId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": false,
             "x-example": 1,
-            "description": "Filteren op provincie identifier"
+            "description": "Filteren op identifier van de gemeente, gelijk aan die van de overheidstandaard BRP"
           },
           {
             "name": "wgs84",
@@ -207,7 +208,7 @@
         "parameters": [
           {
             "name": "id",
-            "description": "Adres identifier",
+            "description": "Identifier van het adres, gelijk aan die van de overheidstandaard BAG",
             "in": "path",
             "type": "string",
             "required": true,
@@ -229,6 +230,11 @@
             "schema": {
               "type": "object",
               "properties": {
+                "id": {
+                  "type": "string",
+                  "example": 268200000075156,
+                  "description": "Identifier van het adres, gelijk aan die van de BAG"
+                },
                 "street": {
                   "type": "string",
                   "example": "Binderskampweg",
@@ -367,26 +373,26 @@
           {
             "name": "cityId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": false,
             "x-example": 1,
-            "description": "Filteren op woonplaats identifier"
+            "description": "Filteren op identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG"
           },
           {
             "name": "municipalityId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": false,
             "x-example": 3030,
-            "description": "Filteren op gemeente identifier"
+            "description": "Filteren op identifier van de gemeente, gelijk aan die van de overheidstandaard BRP"
           },
           {
             "name": "provinceId",
             "in": "query",
-            "type": "integer",
+            "type": "string",
             "required": false,
             "x-example": 1,
-            "description": "Filteren op provincie identifier"
+            "description": "Filteren op identifier van de provincie, gelijk aan die van de overheidstandaard BRP"
           },
           {
             "name": "wgs84",
@@ -482,47 +488,19 @@
             "schema": {
               "type": "object",
               "properties": {
+                "p6": {
+                  "type": "string",
+                  "example": "6545CA",
+                  "description": "Postcode"
+                },
                 "city": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "label": {
-                      "type": "string",
-                      "example": "Nijmegen"
-                    }
-                  },
-                  "description": "Woonplaats"
+                  "$ref": "#/definitions/City"
                 },
                 "municipality": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 3030
-                    },
-                    "label": {
-                      "type": "string",
-                      "example": "Nijmegen"
-                    }
-                  },
-                  "description": "Gemeente"
+                  "$ref": "#/definitions/Municipality"
                 },
                 "province": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "label": {
-                      "type": "string",
-                      "example": "Gelderland"
-                    }
-                  },
-                  "description": "Provincie"
+                  "$ref": "#/definitions/Province"
                 },
                 "streets": {
                   "type": "array",
@@ -587,7 +565,7 @@
                             "properties": {
                               "href": {
                                 "type": "string",
-                                "example": "/addresses/1",
+                                "example": "/addresses/268200000075156",
                                 "description": "Link naar adres informatie"
                               }
                             }
@@ -739,19 +717,13 @@
             "schema": {
               "type": "object",
               "properties": {
+                "p4": {
+                  "type": "string",
+                  "example": 6545,
+                  "description": "Postodegebied"
+                },
                 "city": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "label": {
-                      "type": "string",
-                      "example": "Nijmegen"
-                    }
-                  },
-                  "description": "Woonplaats"
+                  "$ref": "#/definitions/City"
                 },
                 "municipality": {
                   "$ref": "#/definitions/Municipality"
@@ -866,9 +838,9 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
+          "type": "string",
           "example": 1,
-          "description": "Identifier van de provincie, gelijk aan die van de overheidstandaard BRP (Basis Registratie Personen)"
+          "description": "Identifier van de provincie, gelijk aan die van de overheidstandaard BRP"
         },
         "label": {
           "type": "string",
@@ -881,9 +853,9 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
+          "type": "string",
           "example": 3030,
-          "description": "Identifier van de gemeente, gelijk aan die van de overheidstandaard BRP (Basis Registratie Personen)"
+          "description": "Identifier van de gemeente, gelijk aan die van de overheidstandaard BRP"
         },
         "label": {
           "type": "string",
@@ -896,9 +868,9 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
+          "type": "string",
           "example": 1,
-          "description": "Identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG (Basisregistratie Adressen en Gebouwen)"
+          "description": "Identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG"
         },
         "label": {
           "type": "string",
