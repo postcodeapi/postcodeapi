@@ -2,15 +2,34 @@
   "swagger": "2.0",
   "info": {
     "version": "2.0",
-    "title": "PostcodeAPI"
+    "title": "Postcode API",
+    "description": "De Postcode API gebruikt Open Data van Kadaster's [BAG](http://bag.kadaster.nl) en Open Data van het [CBS](http://www.cbs.nl). Alle mogelijke API calls zijn beschreven in deze specificatie. Voor support en suggesties voor verbeteringen of feature requests verwijzen we je naar de *issues* sectie onze Open Source Github repository: https://github.com/apiwise/postcodeapi.\n\nAlle responses van deze API bevatten [HAL](http://stateless.co/hal_specification.html) *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind je in de `_links` objecten.\n",
+    "contact": {
+      "name": "Apiwise",
+      "url": "http://www.apiwise.nl",
+      "email": "info@apiwise.nl"
+    }
   },
   "host": "vagrant:3000",
-  "basePath": "/",
+  "basePath": "/v2/",
   "schemes": [
     "https"
   ],
   "produces": [
     "application/json"
+  ],
+  "securityDefinitions": {
+    "Api-Key": {
+      "type": "apiKey",
+      "name": "Api-Key",
+      "in": "header",
+      "description": "De gehele API is beveiligd met een Api Key. Deze key heb je gekregen tijdens de registratieprocedure. Wij gebruiken deze vorm van authenticatie om het gebruik van deze dienst te kunnen monitoren en contact op te kunnen nemen met de client mocht er (onbewust) misbruik van gemaakt worden.\n\nHet meesturen van de Api Key gebeurt met de zogenaamde `Api-Key` request header. Bijvoorbeeld: `Api-Key: a0B1c2D34D5c6b7a8`.\n"
+    }
+  },
+  "security": [
+    {
+      "Api-Key": []
+    }
   ],
   "tags": [
     {
@@ -236,7 +255,8 @@
             "name": "townId",
             "in": "path",
             "type": "integer",
-            "required": true
+            "required": true,
+            "x-example": 1
           }
         ],
         "responses": {
@@ -260,7 +280,7 @@
                 "geoJson": {
                   "$ref": "#/definitions/GeoJsonObject"
                 },
-                "postcodes": {
+                "postcodeAreas": {
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -447,6 +467,7 @@
             "type": "integer",
             "required": false,
             "default": 1,
+            "x-example": 1,
             "description": "Paginanummer voor paginering"
           },
           {
@@ -454,42 +475,48 @@
             "in": "query",
             "type": "integer",
             "required": false,
-            "description": "Filteren op postcodegebied in *P4* formaat (6545)"
+            "x-example": 6545,
+            "description": "Filteren op postcodegebied in *P4* formaat"
           },
           {
             "name": "postcode",
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Filteren op postcode in *P6* formaat (6545CA)"
+            "x-example": "6545CA",
+            "description": "Filteren op postcode in *P6* formaat"
           },
           {
             "name": "number",
             "in": "query",
             "type": "integer",
             "required": false,
-            "description": "Filteren op huisnummer (29)"
+            "x-example": 29,
+            "description": "Filteren op huisnummer"
           },
           {
             "name": "addition",
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Filteren op huisnummer toevoeging (U-31)"
+            "x-example": "U-31",
+            "description": "Filteren op huisnummer toevoeging"
           },
           {
             "name": "street",
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Filteren op straatnaam (Binderskampweg)"
+            "x-example": "Binderskampweg",
+            "description": "Filteren op straatnaam"
           },
           {
             "name": "wgs84",
             "in": "query",
             "type": "string",
             "required": false,
-            "description": "Komma gescheiden lat, lon (GPS) coördinaten om te sorteren op afstand (51.8463989,5.8031914)"
+            "x-example": "51.8463989,5.8031914",
+            "description": "Komma gescheiden lat,lon (GPS) coordinaten om te sorteren op afstand"
           }
         ],
         "responses": {
@@ -609,6 +636,9 @@
                   "example": "Gelderland",
                   "description": "Provincie"
                 },
+                "geoJson": {
+                  "$ref": "#/definitions/GeoJsonObject"
+                },
                 "_links": {
                   "type": "object",
                   "properties": {
@@ -664,6 +694,7 @@
             "type": "integer",
             "required": false,
             "default": 1,
+            "x-example": 1,
             "description": "Paginanummer voor paginering"
           }
         ],
@@ -730,10 +761,11 @@
         "parameters": [
           {
             "name": "postcode",
-            "description": "Postcode in *P6* formaat (6545CA)",
             "in": "path",
             "type": "string",
-            "required": true
+            "required": true,
+            "x-example": "6545CA",
+            "description": "Postcode in *P6* formaat"
           }
         ],
         "description": "Informatie over een postcode met bijbehorende adressen",
@@ -772,6 +804,9 @@
                     "Kronenburgersingel"
                   ],
                   "description": "Ontdubbelde straten die binnen deze postcode vallen"
+                },
+                "geoJson": {
+                  "$ref": "#/definitions/GeoJsonObject"
                 },
                 "addresses": {
                   "type": "array",
@@ -866,6 +901,7 @@
             "type": "integer",
             "required": false,
             "default": 1,
+            "x-example": 1,
             "description": "Paginanummer voor paginering"
           }
         ],
@@ -930,10 +966,11 @@
         "parameters": [
           {
             "name": "postcodeArea",
-            "description": "Postcodegebied in *P4* formaat (6545)",
             "in": "path",
             "type": "string",
-            "required": true
+            "required": true,
+            "x-example": 6545,
+            "description": "Postcodegebied in *P4* formaat"
           }
         ],
         "description": "Informatie over een postcodegebied met bijbehorende postcodes",
@@ -964,6 +1001,9 @@
                   "description": "Provincie",
                   "type": "string",
                   "example": "Gelderland"
+                },
+                "geoJson": {
+                  "$ref": "#/definitions/GeoJsonObject"
                 },
                 "postcodes": {
                   "type": "array",
