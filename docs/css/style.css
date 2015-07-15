@@ -3112,17 +3112,17 @@ a.label:focus {
 .label-delete {
   background-color: #a41e22; }
 
+.content h2 {
+  margin: 40px 0; }
+
 .sidebar {
   margin-top: 40px; }
 
 .panel-heading {
   font-size: 16px;
   font-weight: 500; }
-  .panel-heading h2 {
+  .panel-heading h3 {
     display: inline-block;
     margin: 0px;
     font-size: 16px;
     line-height: 20px; }
-
-.panel-body h3 {
-  font-size: 16px; }
