@@ -3,4 +3,5 @@ Deze repository bevat het [API design](http://swagger.apiwise.nl/?url=https://ra
 
 Via deze repository kan er gediscussieerd worden over gewenste features en de structuur van de API. Voel je vrij om de spec te forken en via Pull Requests eventuele verbeteringen en wijzigingen aan te dragen.
 
-De meest actuele leesbare spec is te vinden op de volgende URL:  http://swagger.apiwise.nl/?url=https://raw.githubusercontent.com/apiwise/postcodeapi/master/swagger.json
+De meest actuele leesbare spec is te vinden op de volgende URL:
+https://htmlpreview.github.io/?https://raw.githubusercontent.com/apiwise/postcodeapi/master/docs/index.html
