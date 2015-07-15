@@ -1,7 +1,7 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="css/style.css"><title>Postcode API</title></head><body><div class="container"><div class="row"><div class="col-md-3 sidebar"><nav><div class="panel panel-default"><div class="panel-heading">Adres calls</div><div class="panel-body"><ul class="nav nav-pills nav-stacked"><li><a href="#/addresses|get">Alle adressen<span class="label label-get pull-right">GET</span></a></li><li><a href="#/addresses/{id}|get">Enkel adres<span class="label label-get pull-right">GET</span></a></li></ul></div></div><div class="panel panel-default"><div class="panel-heading">Postcode calls</div><div class="panel-body"><ul class="nav nav-pills nav-stacked"><li><a href="#/postcodes|get">Alle postcodes<span class="label label-get pull-right">GET</span></a></li><li><a href="#/postcodes/{p6}|get">Enkele postcode<span class="label label-get pull-right">GET</span></a></li></ul></div></div></nav></div><div class="col-md-9 content"><h1 class="page-header">Postcode API <small>Version 2.0</small></h1><div class="api-description"><p>De Postcode API gebruikt Open Data van Kadaster&#39;s <a href="http://bag.kadaster.nl">BAG</a> en Open Data van het <a href="http://www.cbs.nl">CBS</a>. Alle mogelijke API calls zijn beschreven in deze specificatie. Voor support en suggesties voor verbeteringen of feature requests verwijzen we je naar de <em>issues</em> sectie onze Open Source Github repository: <a href="https://github.com/apiwise/postcodeapi">https://github.com/apiwise/postcodeapi</a>.</p>
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="css/style.css"><title>Postcode API</title></head><body><div class="container"><div class="row"><div class="col-md-3 sidebar"><nav><div class="panel panel-default"><div class="panel-heading">Adres calls</div><div class="panel-body"><ul class="nav nav-pills nav-stacked"><li><a href="#/addresses|get">Alle adressen<span class="label label-get">GET</span></a></li><li><a href="#/addresses/{id}|get">Enkel adres<span class="label label-get">GET</span></a></li></ul></div></div><div class="panel panel-default"><div class="panel-heading">Postcode calls</div><div class="panel-body"><ul class="nav nav-pills nav-stacked"><li><a href="#/postcodes|get">Alle postcodes<span class="label label-get">GET</span></a></li><li><a href="#/postcodes/{p6}|get">Enkele postcode<span class="label label-get">GET</span></a></li></ul></div></div></nav></div><div class="col-md-9 content"><h1 class="page-header">Postcode API <small>Version 2.0</small></h1><div class="api-description"><p>De Postcode API gebruikt Open Data van Kadaster&#39;s <a href="http://bag.kadaster.nl">BAG</a> en Open Data van het <a href="http://www.cbs.nl">CBS</a>. Alle mogelijke API calls zijn beschreven in deze specificatie. Voor support en suggesties voor verbeteringen of feature requests verwijzen we je naar de <em>issues</em> sectie onze Open Source Github repository: <a href="https://github.com/apiwise/postcodeapi">https://github.com/apiwise/postcodeapi</a>.</p>
 <p>Alle responses van deze API bevatten <a href="http://stateless.co/hal_specification.html">HAL</a> <em>hypermedia links</em> om door de data te kunnen navigeren. Deze navigatie vind je in de <code>_links</code> objecten.</p>
-</div><h2>Adres calls</h2><div id="/addresses|get" class="panel panel-default"><div class="panel-heading"><h3>Alle adressen</h3><span class="label label-get pull-right">GET</span></div><div class="panel-body"><p>Alle adressen in Nederland, gepagineerd per 100 records</p>
-<p><strong>URL: </strong><code>/addresses</code></p><hr><strong>Parameters (* required)</strong><table class="table"><thead><th>Name</th><th>Type</th><th>Example</th><th>Description</th></thead><tbody><tr><td>page (default: 1)</td><td>Integer</td><td>1</td><td><p>Paginanummer voor paginering</p>
+</div><h2>Adres calls</h2><div id="/addresses|get" class="panel panel-default"><div class="panel-heading"><h3>Alle adressen</h3><span class="label label-get">GET</span></div><div class="panel-body"><p>Alle adressen in Nederland, gepagineerd per 100 records</p>
+<p><strong>URL: </strong><code>/addresses</code></p><hr><div class="call-heading">Parameters (* required)</div><table class="table"><thead><th>Name</th><th>Type</th><th>Example</th><th>Description</th></thead><tbody><tr><td>page (default: 1)</td><td>Integer</td><td>1</td><td><p>Paginanummer voor paginering</p>
 </td></tr><tr><td>postcodeArea</td><td>Integer</td><td>6545</td><td><p>Filteren op postcodegebied in <em>P4</em> formaat</p>
 </td></tr><tr><td>postcode</td><td>String</td><td>6545CA</td><td><p>Filteren op postcode in <em>P6</em> formaat</p>
 </td></tr><tr><td>number</td><td>Integer</td><td>29</td><td><p>Filteren op huisnummer</p>
@@ -10,18 +10,166 @@
 </td></tr><tr><td>municipality</td><td>String</td><td>Nijmegen</td><td><p>Filteren op gemeentenaam (fuzzy)</p>
 </td></tr><tr><td>province</td><td>String</td><td>Nijmegen</td><td><p>Filteren op provincienaam (fuzzy)</p>
 </td></tr><tr><td>wgs84</td><td>String</td><td>51.8463989,5.8031914</td><td><p>Komma gescheiden lat/lon (GPS) coordinaten om te sorteren op afstand</p>
-</td></tr></tbody></table><hr><strong>Response messages</strong><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr></tbody></table></div></div><div id="/addresses/{id}|get" class="panel panel-default"><div class="panel-heading"><h3>Enkel adres</h3><span class="label label-get pull-right">GET</span></div><div class="panel-body"><p>Informatie over een adres</p>
-<p><strong>URL: </strong><code>/addresses/{id}</code></p><hr><strong>Parameters (* required)</strong><table class="table"><thead><th>Name</th><th>Type</th><th>Example</th><th>Description</th></thead><tbody><tr><td>id*</td><td>String</td><td>268200000075156</td><td><p>Adres identifier</p>
+</td></tr></tbody></table><hr><div class="call-heading">Response messages</div><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr><tr><td colspan="2"><pre><code class="json">{
+  "<span class="hljs-attribute">_embedded</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">street</span>": <span class="hljs-value"><span class="hljs-string">"Binderskampweg"</span></span>,
+      "<span class="hljs-attribute">number</span>": <span class="hljs-value"><span class="hljs-number">29</span></span>,
+      "<span class="hljs-attribute">letter</span>": <span class="hljs-value"><span class="hljs-string">"U"</span></span>,
+      "<span class="hljs-attribute">addition</span>": <span class="hljs-value"><span class="hljs-number">31</span></span>,
+      "<span class="hljs-attribute">_links</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">self</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"/addresses/1"</span>
+        </span>}
+      </span>}
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">_links</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">next</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"/addresses?page=2"</span>
+    </span>}
+  </span>}
+</span>}</code></pre></td></tr></tbody></table></div></div><div id="/addresses/{id}|get" class="panel panel-default"><div class="panel-heading"><h3>Enkel adres</h3><span class="label label-get">GET</span></div><div class="panel-body"><p>Informatie over een adres</p>
+<p><strong>URL: </strong><code>/addresses/{id}</code></p><hr><div class="call-heading">Parameters (* required)</div><table class="table"><thead><th>Name</th><th>Type</th><th>Example</th><th>Description</th></thead><tbody><tr><td>id*</td><td>String</td><td>268200000075156</td><td><p>Adres identifier</p>
 </td></tr><tr><td>wgs84</td><td>String</td><td>51.8463989,5.8031914</td><td><p>Komma gescheiden lat/lon (GPS) coordinaten om de afstand tot dit adres te berekenen</p>
-</td></tr></tbody></table><hr><strong>Response messages</strong><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr></tbody></table></div></div><h2>Postcode calls</h2><div id="/postcodes|get" class="panel panel-default"><div class="panel-heading"><h3>Alle postcodes</h3><span class="label label-get pull-right">GET</span></div><div class="panel-body"><p>Alle postcodes in Nederland, gepagineerd per 100 records</p>
-<p><strong>URL: </strong><code>/postcodes</code></p><hr><strong>Parameters (* required)</strong><table class="table"><thead><th>Name</th><th>Type</th><th>Example</th><th>Description</th></thead><tbody><tr><td>page (default: 1)</td><td>Integer</td><td>1</td><td><p>Paginanummer voor paginering</p>
+</td></tr></tbody></table><hr><div class="call-heading">Response messages</div><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr><tr><td colspan="2"><pre><code class="json">{
+  "<span class="hljs-attribute">street</span>": <span class="hljs-value"><span class="hljs-string">"Binderskampweg"</span></span>,
+  "<span class="hljs-attribute">number</span>": <span class="hljs-value"><span class="hljs-number">29</span></span>,
+  "<span class="hljs-attribute">letter</span>": <span class="hljs-value"><span class="hljs-string">"U"</span></span>,
+  "<span class="hljs-attribute">addition</span>": <span class="hljs-value"><span class="hljs-number">31</span></span>,
+  "<span class="hljs-attribute">town</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span></span>,
+  "<span class="hljs-attribute">municipality</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span></span>,
+  "<span class="hljs-attribute">province</span>": <span class="hljs-value"><span class="hljs-string">"Gelderland"</span></span>,
+  "<span class="hljs-attribute">distance</span>": <span class="hljs-value"><span class="hljs-number">23.1</span></span>,
+  "<span class="hljs-attribute">geoJson</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Feature"</span></span>,
+    "<span class="hljs-attribute">geometry</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Polygon"</span></span>,
+      "<span class="hljs-attribute">coordinates</span>": <span class="hljs-value">[
+        [
+          [
+            <span class="hljs-number">100</span>,
+            <span class="hljs-number">0</span>
+          ],
+          [
+            <span class="hljs-number">101</span>,
+            <span class="hljs-number">0</span>
+          ],
+          [
+            <span class="hljs-number">101</span>,
+            <span class="hljs-number">1</span>
+          ],
+          [
+            <span class="hljs-number">100</span>,
+            <span class="hljs-number">1</span>
+          ],
+          [
+            <span class="hljs-number">100</span>,
+            <span class="hljs-number">0</span>
+          ]
+        ]
+      ]
+    </span>}
+  </span>}</span>,
+  "<span class="hljs-attribute">_links</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">town</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+    </span>}</span>,
+    "<span class="hljs-attribute">municipality</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+    </span>}</span>,
+    "<span class="hljs-attribute">province</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+    </span>}
+  </span>}
+</span>}</code></pre></td></tr></tbody></table></div></div><h2>Postcode calls</h2><div id="/postcodes|get" class="panel panel-default"><div class="panel-heading"><h3>Alle postcodes</h3><span class="label label-get">GET</span></div><div class="panel-body"><p>Alle postcodes in Nederland, gepagineerd per 100 records</p>
+<p><strong>URL: </strong><code>/postcodes</code></p><hr><div class="call-heading">Parameters (* required)</div><table class="table"><thead><th>Name</th><th>Type</th><th>Example</th><th>Description</th></thead><tbody><tr><td>page (default: 1)</td><td>Integer</td><td>1</td><td><p>Paginanummer voor paginering</p>
 </td></tr><tr><td>postcodeArea</td><td>Integer</td><td>6545</td><td><p>Filteren op postcodegebied in <em>P4</em> formaat</p>
 </td></tr><tr><td>street</td><td>String</td><td>Binderskampweg</td><td><p>Filteren op straatnaam (fuzzy)</p>
 </td></tr><tr><td>town</td><td>String</td><td>Nijmegen</td><td><p>Filteren op woonplaatsnaam (fuzzy)</p>
 </td></tr><tr><td>municipality</td><td>String</td><td>Nijmegen</td><td><p>Filteren op gemeentenaam (fuzzy)</p>
 </td></tr><tr><td>province</td><td>String</td><td>Nijmegen</td><td><p>Filteren op provincienaam (fuzzy)</p>
 </td></tr><tr><td>wgs84</td><td>String</td><td>51.8463989,5.8031914</td><td><p>Komma gescheiden lat/lon (GPS) coordinaten om te sorteren op afstand</p>
-</td></tr></tbody></table><hr><strong>Response messages</strong><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr></tbody></table></div></div><div id="/postcodes/{p6}|get" class="panel panel-default"><div class="panel-heading"><h3>Enkele postcode</h3><span class="label label-get pull-right">GET</span></div><div class="panel-body"><p>Informatie over een postcode met bijbehorende adressen</p>
-<p><strong>URL: </strong><code>/postcodes/{p6}</code></p><hr><strong>Parameters (* required)</strong><table class="table"><thead><th>Name</th><th>Type</th><th>Example</th><th>Description</th></thead><tbody><tr><td>p6*</td><td>String</td><td>6545CA</td><td><p>Postcode in <em>P6</em> formaat</p>
+</td></tr></tbody></table><hr><div class="call-heading">Response messages</div><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr><tr><td colspan="2"><pre><code class="json">{
+  "<span class="hljs-attribute">_embedded</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">p6</span>": <span class="hljs-value"><span class="hljs-string">"6545CA"</span></span>,
+      "<span class="hljs-attribute">_links</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">self</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"/postcodes/6545CA"</span>
+        </span>}
+      </span>}
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">_links</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">next</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"/postcodes?page=2"</span>
+    </span>}
+  </span>}
+</span>}</code></pre></td></tr></tbody></table></div></div><div id="/postcodes/{p6}|get" class="panel panel-default"><div class="panel-heading"><h3>Enkele postcode</h3><span class="label label-get">GET</span></div><div class="panel-body"><p>Informatie over een postcode met bijbehorende adressen</p>
+<p><strong>URL: </strong><code>/postcodes/{p6}</code></p><hr><div class="call-heading">Parameters (* required)</div><table class="table"><thead><th>Name</th><th>Type</th><th>Example</th><th>Description</th></thead><tbody><tr><td>p6*</td><td>String</td><td>6545CA</td><td><p>Postcode in <em>P6</em> formaat</p>
 </td></tr><tr><td>wgs84</td><td>String</td><td>51.8463989,5.8031914</td><td><p>Komma gescheiden lat/lon (GPS) coordinaten om de afstand tot deze postcode te berekenen</p>
-</td></tr></tbody></table><hr><strong>Response messages</strong><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr></tbody></table></div></div></div></div><footer><div class="row footer"><p>This documentation is generated by <a href="https://github.com/apiwise/apiranto">Apiranto</a>.</p></div></footer></div></body></html>
+</td></tr></tbody></table><hr><div class="call-heading">Response messages</div><table class="table"><thead><th>Status code</th><th>Description</th></thead><tbody><tr><td>200</td><td>OK</td></tr><tr><td colspan="2"><pre><code class="json">{
+  "<span class="hljs-attribute">town</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span></span>,
+  "<span class="hljs-attribute">municipality</span>": <span class="hljs-value"><span class="hljs-string">"Nijmegen"</span></span>,
+  "<span class="hljs-attribute">province</span>": <span class="hljs-value"><span class="hljs-string">"Gelderland"</span></span>,
+  "<span class="hljs-attribute">streets</span>": <span class="hljs-value">[
+    <span class="hljs-string">"Binderskampweg"</span>,
+    <span class="hljs-string">"Kronenburgersingel"</span>
+  ]</span>,
+  "<span class="hljs-attribute">distance</span>": <span class="hljs-value"><span class="hljs-number">23.1</span></span>,
+  "<span class="hljs-attribute">geoJson</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Feature"</span></span>,
+    "<span class="hljs-attribute">geometry</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"Polygon"</span></span>,
+      "<span class="hljs-attribute">coordinates</span>": <span class="hljs-value">[
+        [
+          [
+            <span class="hljs-number">100</span>,
+            <span class="hljs-number">0</span>
+          ],
+          [
+            <span class="hljs-number">101</span>,
+            <span class="hljs-number">0</span>
+          ],
+          [
+            <span class="hljs-number">101</span>,
+            <span class="hljs-number">1</span>
+          ],
+          [
+            <span class="hljs-number">100</span>,
+            <span class="hljs-number">1</span>
+          ],
+          [
+            <span class="hljs-number">100</span>,
+            <span class="hljs-number">0</span>
+          ]
+        ]
+      ]
+    </span>}
+  </span>}</span>,
+  "<span class="hljs-attribute">addresses</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">street</span>": <span class="hljs-value"><span class="hljs-string">"Binderskampweg"</span></span>,
+      "<span class="hljs-attribute">number</span>": <span class="hljs-value"><span class="hljs-number">29</span></span>,
+      "<span class="hljs-attribute">letter</span>": <span class="hljs-value"><span class="hljs-string">"U"</span></span>,
+      "<span class="hljs-attribute">addition</span>": <span class="hljs-value"><span class="hljs-number">31</span></span>,
+      "<span class="hljs-attribute">_links</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">self</span>": <span class="hljs-value">{
+          "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"/addresses/1"</span>
+        </span>}
+      </span>}
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">_links</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">town</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+    </span>}</span>,
+    "<span class="hljs-attribute">municipality</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+    </span>}</span>,
+    "<span class="hljs-attribute">province</span>": <span class="hljs-value">{
+      "<span class="hljs-attribute">href</span>": <span class="hljs-value">{}
+    </span>}
+  </span>}
+</span>}</code></pre></td></tr></tbody></table></div></div></div></div><footer><div class="row footer"><p>This documentation is generated by <a href="https://github.com/apiwise/apiranto">Apiranto</a>.</p></div></footer></div></body></html>
