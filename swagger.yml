@@ -76,7 +76,7 @@ paths:
           in: query
           type: string
           required: false
-          x-example: "1"
+          x-example: "268200000075156"
           description: Filteren op identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
         - name: municipalityId
           in: query
@@ -123,6 +123,10 @@ paths:
                       type: string
                       example: "31"
                       description: Huisnummer toevoeging
+                    postcode:
+                      type: string
+                      example: 6545CA
+                      description: Postcode in *P6* formaat
                     city:
                       $ref: "#/definitions/City"
                     municipality:
@@ -294,7 +298,7 @@ paths:
           in: query
           type: string
           required: false
-          x-example: "1"
+          x-example: "268200000075156"
           description: Filteren op identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
         - name: municipalityId
           in: query
