@@ -4,7 +4,7 @@
   "info": {
     "version": "2.0",
     "title": "Postcode API",
-    "description": "De Postcode API gebruikt Open Data van Kadaster's [BAG](http://bag.kadaster.nl) en Open Data van het [CBS](http://www.cbs.nl). Alle mogelijke API calls zijn beschreven in deze specificatie. Voor support en suggesties voor verbeteringen of feature requests verwijzen we je naar de *issues* sectie onze Open Source Github repository: https://github.com/apiwise/postcodeapi.\n\nAlle responses van deze API bevatten [HAL](http://stateless.co/hal_specification.html) *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind je in de `_links` objecten.\n",
+    "description": "De Postcode API gebruikt Open Data van Kadaster's [BAG](http://bag.kadaster.nl) en Open Data van het [CBS](http://www.cbs.nl). Alle mogelijke API calls zijn beschreven in deze specificatie. Voor support en suggesties voor verbeteringen of feature requests verwijzen we je naar de *issues* sectie onze Open Source Github repository: https://github.com/apiwise/postcodeapi.\n\n### Parameters\nAlle parameters die hier beschreven staan zijn query parameters en dienen als zodanig met de URL meegestuurd te worden, bijvoorbeeld: \n\n`https://api.postcodeapi.nu/v2/addresses?page=3&postcodeArea=6545` \n\n*Let op: deze link werkt nog niet omdat de API zelf nog gerealiseerd moet worden*\n\n### Hypermedia\nAlle responses van deze API bevatten [HAL](http://stateless.co/hal_specification.html) *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind je in de `_links` objecten.\n",
     "contact": {
       "name": "Apiwise",
       "url": "http://www.apiwise.nl",
