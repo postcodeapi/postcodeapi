@@ -2,9 +2,7 @@
   "name": "postcodeapi",
   "version": "2.0.0",
   "description": "Postcode API spec & docs",
-  "dependencies": {
-    "apiranto": "^0.0.2"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {},
   "repository": {
