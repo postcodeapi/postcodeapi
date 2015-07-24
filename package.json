@@ -1,0 +1,20 @@
+{
+  "name": "postcodeapi",
+  "version": "2.0.0",
+  "description": "Postcode API spec & docs",
+  "dependencies": {
+    "apiranto": "^0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apiwise/postcodeapi.git"
+  },
+  "author": "Apiwise <info@apiwise.nl>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apiwise/postcodeapi/issues"
+  },
+  "homepage": "https://github.com/apiwise/postcodeapi#readme"
+}
