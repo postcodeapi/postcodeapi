@@ -77,7 +77,7 @@ paths:
           type: integer
           required: false
           x-example: 29
-          description: Filteren op huisnummer
+          description: Filteren op huisnummer (alleen in combinatie met postcode of straat)
         - name: street
           in: query
           type: string
@@ -115,86 +115,12 @@ paths:
             type: object
             properties:
               _embedded:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - id
-                    - type
-                    - purpose
-                    - street
-                    - number
-                    - letter
-                    - addition
-                    - postcode
-                    - city
-                    - municipality
-                    - province
-                    - geo
-                  properties:
-                    id:
-                      type: string
-                      example: "268200000075156"
-                      description: Identifier van het adres, gelijk aan die van de BAG
-                    street:
-                      type: string
-                      example: Binderskampweg
-                      description: Straat
-                    number:
-                      type: integer
-                      example: 29
-                      description: Huisnummer
-                    letter:
-                      type: [ string, "null" ]
-                      example: U
-                      description: Letter
-                    addition:
-                      type: [ string, "null" ]
-                      example: "31"
-                      description: Huisnummer toevoeging
-                    postcode:
-                      type: [ string, "null" ]
-                      example: 6545CA
-                      description: Postcode in *P6* formaat
-                    city:
-                      $ref: "#/definitions/City"
-                    municipality:
-                      $ref: "#/definitions/Municipality"
-                    province:
-                      $ref: "#/definitions/Province"
-                    distance:
-                      type: number
-                      format: float
-                      example: 23.1
-                      description: Afstand (in km) tot WGS84 coordinaten als deze zijn opgegeven
-                    geo:
-                      type: object
-                      properties:
-                        center:
-                          type: object
-                          properties:
-                            wgs84:
-                              $ref: "#/definitions/Wgs84Center"
-                            rd:
-                              $ref: "#/definitions/RdCenter"
-                    type:
-                      type: string
-                      example: Verblijfsobject
-                      description: Type gebouw
-                    purpose:
-                      type: [ string, "null" ]
-                      example: woonfunctie
-                      description: Gebruiksdoel
-                    _links:
-                      type: object
-                      properties:
-                        self:
-                          type: object
-                          properties:
-                            href:
-                              type: string
-                              example: /addresses/268200000075156
-                              description: Link naar adres informatie
+                type: object
+                properties:
+                  addresses:
+                    type: array
+                    items:
+                      $ref: "#/definitions/Address"
               _links:
                 type: object
                 properties:
@@ -218,9 +144,11 @@ paths:
                   message:
                     type: string
   /addresses/{id}:
+    x-swagger-router-controller: address
     get:
       tags: [address]
       summary: Enkel adres
+      operationId: findOneAddress
       parameters:
         - name: id
           description: Identifier van het adres, gelijk aan die van de overheidstandaard BAG
@@ -239,90 +167,13 @@ paths:
         200:
           description: OK
           schema:
-            type: object
-            properties:
-              id:
-                type: string
-                example: "268200000075156"
-                description: Identifier van het adres, gelijk aan die van de BAG
-              street:
-                type: string
-                example: Binderskampweg
-                description: Straat
-              number:
-                type: integer
-                example: 29
-                description: Huisnummer
-              letter:
-                type: string
-                example: U
-                description: Letter
-              addition:
-                type: string
-                example: "31"
-                description: Huisnummer toevoeging
-              postcode:
-                type: string
-                example: "6545CA"
-                description: Postcode in *P6* formaat
-              city:
-                $ref: "#/definitions/City"
-              municipality:
-                $ref: "#/definitions/Municipality"
-              province:
-                $ref: "#/definitions/Province"
-              distance:
-                type: number
-                format: float
-                example: 23.1
-                description: Afstand (in km) tot WGS84 coordinaten als deze zijn opgegeven
-              type:
-                type: string
-                example: Verblijfsobject
-                description: Type gebouw van het adres volgens de BAG
-              purpose:
-                type: string
-                example: woonfunctie
-                description: Bestemming van het adres volgens de BAG
-              geo:
-                type: object
-                properties:
-                  center:
-                    type: object
-                    properties:
-                      wgs84:
-                        $ref: "#/definitions/Wgs84Center"
-                      rd:
-                        $ref: "#/definitions/RdCenter"
-              _links:
-                type: object
-                properties:
-                  city:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.plaatsapi.nu/cities/3030
-                        description: Link naar woonplaats informatie van Plaats API
-                  municipality:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.plaatsapi.nu/municipalities/01268
-                        description: Link naar gemeente informatie van Plaats API
-                  province:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.plaatsapi.nu/provinces/1
-                        description: Link naar provincie informatie van Plaats API
+              $ref: "#/definitions/Address"
   /postcodes:
     get:
       tags: [postcode]
       summary: Alle postcodes
       description: Alle postcodes in Nederland, gepagineerd per 20 records
+      operationId: findOneAddress
       parameters:
         - name: page
           in: query
@@ -374,23 +225,26 @@ paths:
             type: object
             properties:
               _embedded:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    postcode:
-                      type: string
-                      example: 6545CA
-                    _links:
+                type: object
+                properties:
+                  postcodes:
+                    type: array
+                    items:
                       type: object
                       properties:
-                        self:
+                        postcode:
+                          type: string
+                          example: 6545CA
+                        _links:
                           type: object
                           properties:
-                            href:
-                              type: string
-                              example: /postcodes/6545CA
-                              description: Link naar postcode informatie
+                            self:
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  example: /postcodes/6545CA
+                                  description: Link naar postcode informatie
               _links:
                 type: object
                 properties:
@@ -652,6 +506,106 @@ paths:
                         example: https://api.plaatsapi.nu/provinces/1
                         description: Link naar provincie informatie van Plaats API
 definitions:
+  Address:
+    type: object
+    required:
+      - id
+      - type
+      - purpose
+      - street
+      - number
+      - letter
+      - addition
+      - postcode
+      - city
+      - municipality
+      - province
+      - geo
+    properties:
+      id:
+        type: string
+        example: "268200000075156"
+        description: Identifier van het adres, gelijk aan die van de BAG
+      street:
+        type: string
+        example: Binderskampweg
+        description: Straat
+      number:
+        type: integer
+        example: 29
+        description: Huisnummer
+      letter:
+        type: [ string, "null" ]
+        example: U
+        description: Letter
+      addition:
+        type: [ string, "null" ]
+        example: "31"
+        description: Huisnummer toevoeging
+      postcode:
+        type: [ string, "null" ]
+        example: 6545CA
+        description: Postcode in *P6* formaat
+      city:
+        $ref: "#/definitions/City"
+      municipality:
+        $ref: "#/definitions/Municipality"
+      province:
+        $ref: "#/definitions/Province"
+      distance:
+        type: [ number ]
+        format: float
+        example: 23.1
+        description: Afstand (in km) tot WGS84 coordinaten als deze zijn opgegeven
+      geo:
+        type: object
+        properties:
+          center:
+            type: object
+            properties:
+              wgs84:
+                $ref: "#/definitions/Wgs84Center"
+              rd:
+                $ref: "#/definitions/RdCenter"
+      type:
+        type: string
+        example: Verblijfsobject
+        description: Type gebouw
+      purpose:
+        type: [ string, "null" ]
+        example: woonfunctie
+        description: Gebruiksdoel
+      _links:
+        type: object
+        properties:
+          self:
+            type: object
+            properties:
+              href:
+                type: string
+                example: /addresses/268200000075156
+                description: Link naar adres informatie
+          # city:
+          #   type: object
+          #   properties:
+          #     href:
+          #       type: string
+          #       example: https://api.plaatsapi.nu/cities/3030
+          #       description: Link naar woonplaats informatie van Plaats API
+          # municipality:
+          #   type: object
+          #   properties:
+          #     href:
+          #       type: string
+          #       example: https://api.plaatsapi.nu/municipalities/01268
+          #       description: Link naar gemeente informatie van Plaats API
+          # province:
+          #   type: object
+          #   properties:
+          #     href:
+          #       type: string
+          #       example: https://api.plaatsapi.nu/provinces/1
+          #       description: Link naar provincie informatie van Plaats API
   Province:
     type: object
     properties:
