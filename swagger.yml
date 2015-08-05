@@ -102,12 +102,6 @@ paths:
           required: false
           x-example: "1"
           description: Filteren op identifier van de gemeente, gelijk aan die van de overheidstandaard BRP
-        - name: wgs84
-          in: query
-          type: string
-          required: false
-          x-example: 51.8463989,5.8031914
-          description: Komma gescheiden lat/lon (GPS) coordinaten om te sorteren op afstand
       responses:
         200:
           description: OK
@@ -151,12 +145,6 @@ paths:
           type: string
           required: true
           x-example: "268200000075156"
-        - name: wgs84
-          in: query
-          type: string
-          required: false
-          x-example: 51.8463989,5.8031914
-          description: Komma gescheiden lat/lon (GPS) coordinaten om de afstand tot dit adres te berekenen
       description: Informatie over een adres
       responses:
         200:
@@ -212,12 +200,6 @@ paths:
           required: false
           x-example: "1"
           description: Filteren op identifier van de provincie, gelijk aan die van de overheidstandaard BRP
-        - name: wgs84
-          in: query
-          type: string
-          required: false
-          x-example: 51.8463989,5.8031914
-          description: Komma gescheiden lat/lon (GPS) coordinaten om te sorteren op afstand
       responses:
         200:
           description: OK
@@ -267,12 +249,6 @@ paths:
           required: true
           x-example: 6545CA
           description: Postcode in *P6* formaat
-        - name: wgs84
-          in: query
-          type: string
-          required: false
-          x-example: 51.8463989,5.8031914
-          description: Komma gescheiden lat/lon (GPS) coordinaten om de afstand tot deze postcode te berekenen
       description: Informatie over een postcode met bijbehorende adressen
       responses:
         200:
@@ -294,11 +270,6 @@ paths:
                 type: array
                 example: [Binderskampweg, Kronenburgersingel]
                 description: Ontdubbelde straten die binnen deze postcode vallen
-              distance:
-                type: number
-                format: float
-                example: 23.1
-                description: Afstand (in km) tot WGS84 coordinaten als deze zijn opgegeven
               geo:
                 type: object
                 properties:
@@ -553,11 +524,6 @@ definitions:
             type: [ string, "null" ]
             example: 6545CA
             description: Postcode in *P6* formaat
-          distance:
-            type: [ number ]
-            format: float
-            example: 23.1
-            description: Afstand (in km) tot WGS84 coordinaten als deze zijn opgegeven
           geo:
             type: object
             properties:
