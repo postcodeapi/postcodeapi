@@ -13,7 +13,7 @@ info:
     *Let op: deze link werkt nog niet omdat de API zelf nog gerealiseerd moet worden*
 
     ### Hypermedia
-    Alle responses van deze API bevatten [HAL](http://stateless.co/hal_specification.html) *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind je in de `_links` objecten.
+    Alle responses van deze API bevatten [JSON API](http://jsonapi.org/) *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind je in de `links` objecten.
   contact:
     name: Apiwise
     url: http://www.apiwise.nl
@@ -23,7 +23,7 @@ basePath: /v2
 schemes:
   - https
 produces:
-  - application/json
+  - application/vnd.api+json
 securityDefinitions:
   apiKey:
     type: apiKey
@@ -113,36 +113,31 @@ paths:
           description: OK
           schema:
             type: object
+            required:
+              - data
+              - links
             properties:
-              _embedded:
+              data:
+                type: array
+                items:
+                  $ref: "#/definitions/Address"
+              links:
                 type: object
+                required:
+                  - self
                 properties:
-                  addresses:
-                    type: array
-                    items:
-                      $ref: "#/definitions/Address"
-              _links:
-                type: object
-                properties:
-                  next:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: /addresses?page=2
-                        description: Link naar volgende pagina
-        400:
-          description: Bad request
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: number
-                  message:
+                  self:
                     type: string
+                    example: https://api.postcodeapi.nu/v2/addresses?page=2
+                    description: Link naar volgende pagina
+                  prev:
+                    type: string
+                    example: https://api.postcodeapi.nu/v2/addresses?page=2
+                    description: Link naar volgende pagina
+                  next:
+                    type: string
+                    example: https://api.postcodeapi.nu/v2/addresses?page=2
+                    description: Link naar volgende pagina
   /addresses/{id}:
     x-swagger-router-controller: address
     get:
@@ -167,13 +162,18 @@ paths:
         200:
           description: OK
           schema:
-              $ref: "#/definitions/Address"
+            type: object
+            required:
+              - data
+            properties:
+              data:
+                $ref: "#/definitions/Address"
   /postcodes:
     get:
       tags: [postcode]
       summary: Alle postcodes
       description: Alle postcodes in Nederland, gepagineerd per 20 records
-      operationId: findOneAddress
+      operationId: findPostcodes
       parameters:
         - name: page
           in: query
@@ -259,6 +259,7 @@ paths:
     get:
       tags: [postcode]
       summary: Enkele postcode
+      operationId: findOnePostcode
       parameters:
         - name: postcode
           in: path
@@ -509,103 +510,81 @@ definitions:
   Address:
     type: object
     required:
-      - id
       - type
-      - purpose
-      - street
-      - number
-      - letter
-      - addition
-      - postcode
-      - city
-      - municipality
-      - province
-      - geo
+      - id
+      - attributes
     properties:
+      type:
+        type: string
+        example: "addresses"
       id:
         type: string
         example: "268200000075156"
         description: Identifier van het adres, gelijk aan die van de BAG
-      street:
-        type: string
-        example: Binderskampweg
-        description: Straat
-      number:
-        type: integer
-        example: 29
-        description: Huisnummer
-      letter:
-        type: [ string, "null" ]
-        example: U
-        description: Letter
-      addition:
-        type: [ string, "null" ]
-        example: "31"
-        description: Huisnummer toevoeging
-      postcode:
-        type: [ string, "null" ]
-        example: 6545CA
-        description: Postcode in *P6* formaat
-      city:
-        $ref: "#/definitions/City"
-      municipality:
-        $ref: "#/definitions/Municipality"
-      province:
-        $ref: "#/definitions/Province"
-      distance:
-        type: [ number ]
-        format: float
-        example: 23.1
-        description: Afstand (in km) tot WGS84 coordinaten als deze zijn opgegeven
-      geo:
+      attributes:
         type: object
+        required:
+          - street
+          - number
+          - letter
+          - addition
+          - postcode
+          - geo
+          - type
+          - purpose
         properties:
-          center:
+          street:
+            type: string
+            example: Binderskampweg
+            description: Straat
+          number:
+            type: integer
+            example: 29
+            description: Huisnummer
+          letter:
+            type: [ string, "null" ]
+            example: U
+            description: Letter
+          addition:
+            type: [ string, "null" ]
+            example: "31"
+            description: Huisnummer toevoeging
+          postcode:
+            type: [ string, "null" ]
+            example: 6545CA
+            description: Postcode in *P6* formaat
+          distance:
+            type: [ number ]
+            format: float
+            example: 23.1
+            description: Afstand (in km) tot WGS84 coordinaten als deze zijn opgegeven
+          geo:
             type: object
             properties:
-              wgs84:
-                $ref: "#/definitions/Wgs84Center"
-              rd:
-                $ref: "#/definitions/RdCenter"
-      type:
-        type: string
-        example: Verblijfsobject
-        description: Type gebouw
-      purpose:
-        type: [ string, "null" ]
-        example: woonfunctie
-        description: Gebruiksdoel
-      _links:
+              center:
+                type: object
+                properties:
+                  wgs84:
+                    $ref: "#/definitions/Wgs84Center"
+                  rd:
+                    $ref: "#/definitions/RdCenter"
+          type:
+            type: string
+            example: Verblijfsobject
+            description: Type gebouw
+          purpose:
+            type: [ string, "null" ]
+            example: woonfunctie
+            description: Gebruiksdoel
+      links:
         type: object
+        required:
+          - self
         properties:
           self:
-            type: object
-            properties:
-              href:
-                type: string
-                example: /addresses/268200000075156
-                description: Link naar adres informatie
-          # city:
-          #   type: object
-          #   properties:
-          #     href:
-          #       type: string
-          #       example: https://api.plaatsapi.nu/cities/3030
-          #       description: Link naar woonplaats informatie van Plaats API
-          # municipality:
-          #   type: object
-          #   properties:
-          #     href:
-          #       type: string
-          #       example: https://api.plaatsapi.nu/municipalities/01268
-          #       description: Link naar gemeente informatie van Plaats API
-          # province:
-          #   type: object
-          #   properties:
-          #     href:
-          #       type: string
-          #       example: https://api.plaatsapi.nu/provinces/1
-          #       description: Link naar provincie informatie van Plaats API
+            type: string
+            example: https://api.postcodeapi.nu/v2/addresses/268200000075156
+            description: Link naar het adres
   Province:
     type: object
     properties:
