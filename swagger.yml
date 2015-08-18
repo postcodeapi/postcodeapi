@@ -13,7 +13,7 @@ info:
     *Let op: deze link werkt nog niet omdat de API zelf nog gerealiseerd moet worden*
 
     ### Hypermedia
-    Alle responses van deze API bevatten [HAL](http://stateless.co/hal_specification.html) *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind je in de `links` objecten.
+    Alle responses van deze API bevatten [HAL](http://stateless.co/hal_specification.html) *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind je in de `_links` objecten.
   contact:
     name: Apiwise
     url: http://www.apiwise.nl
