@@ -185,7 +185,7 @@ paths:
                     properties:
                       href:
                         type: string
-                        example: /postcodes
+                        example: https://api.postcodeapi.nu/v2/postcodes
                         description: Link naar huidige response
                   next:
                     type: object
@@ -194,7 +194,7 @@ paths:
                     properties:
                       href:
                         type: string
-                        example: /postcodes?from=6545CA
+                        example: https://api.postcodeapi.nu/v2/postcodes?from=6545CA
                         description: Link naar volgende 20 resultaten
   /postcodes/{postcode}:
     x-swagger-router-controller: postcode
