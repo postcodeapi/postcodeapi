@@ -8,7 +8,7 @@ info:
     ### Parameters
     Alle parameters die hier beschreven staan zijn query parameters en dienen als zodanig met de URL meegestuurd te worden, bijvoorbeeld:
 
-    `https://api.postcodeapi.nu/v2/addresses?page=3&postcodeArea=6545`
+    `https://api.postcodeapi.nu/v2/addresses?postcode=1234AB&number=1`
 
     *Let op: deze link werkt nog niet omdat de API zelf nog gerealiseerd moet worden*
 
@@ -48,24 +48,15 @@ paths:
     get:
       tags: [address]
       summary: Alle adressen
-      description: Alle adressen in Nederland, gepagineerd per 20 records
+      description: Alle adressen in Nederland, gepagineerd per 20 records.
       operationId: findAddresses
       parameters:
-        - name: page
+        - name: from
           in: query
-          type: integer
+          type: string
           required: false
-          minimum: 1
-          maximum: 1000000
-          default: 1
-          x-example: 1
-          description: Paginanummer voor paginering
-        - name: postcodeArea
-          in: query
-          type: integer
-          required: false
-          x-example: 6545
-          description: Filteren op postcodegebied in *P4* formaat
+          x-example: "268200000075156"
+          description: Bedoeld voor paginatie. Gebruik de HAL links voor de juiste waarde
         - name: postcode
           in: query
           type: string
@@ -77,31 +68,7 @@ paths:
           type: integer
           required: false
           x-example: 29
-          description: Filteren op huisnummer (alleen in combinatie met postcode of straat)
-        - name: street
-          in: query
-          type: string
-          required: false
-          x-example: Binderskampweg
-          description: Filteren op straatnaam
-        - name: cityId
-          in: query
-          type: string
-          required: false
-          x-example: "268200000075156"
-          description: Filteren op identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
-        - name: municipalityId
-          in: query
-          type: string
-          required: false
-          x-example: "3030"
-          description: Filteren op identifier van de gemeente, gelijk aan die van de overheidstandaard BRP
-        - name: provinceId
-          in: query
-          type: string
-          required: false
-          x-example: "1"
-          description: Filteren op identifier van de gemeente, gelijk aan die van de overheidstandaard BRP
+          description: Filteren op huisnummer (alleen in combinatie met postcode)
       responses:
         200:
           description: OK
@@ -132,16 +99,8 @@ paths:
                     properties:
                       href:
                         type: string
-                        example: https://api.postcodeapi.nu/v2/addresses?page=2
-                  prev:
-                    type: object
-                    required:
-                      - href
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.postcodeapi.nu/v2/addresses?page=1
-                        description: Link naar volgende pagina
+                        example: https://api.postcodeapi.nu/v2/addresses
+                        description: Link naar huidige response
                   next:
                     type: object
                     required:
@@ -149,8 +108,8 @@ paths:
                     properties:
                       href:
                         type: string
-                        example: https://api.postcodeapi.nu/v2/addresses?page=3
-                        description: Link naar volgende pagina
+                        example: https://api.postcodeapi.nu/v2/addresses?from=268200000075156
+                        description: Link naar volgende 20 resultaten
   /addresses/{id}:
     x-swagger-router-controller: address
     get:
@@ -164,7 +123,7 @@ paths:
           type: string
           required: true
           x-example: "268200000075156"
-      description: Informatie over een adres
+      description: Informatie over een enkel adres.
       responses:
         200:
           description: OK
@@ -175,83 +134,68 @@ paths:
     get:
       tags: [postcode]
       summary: Alle postcodes
-      description: Alle postcodes in Nederland, gepagineerd per 20 records
+      description: Alle postcodes in Nederland, gepagineerd per 20 records.
       operationId: findPostcodes
       parameters:
-        - name: page
+        - name: from
           in: query
-          type: integer
+          type: string
           required: false
-          default: 1
-          x-example: 1
-          description: Paginanummer voor paginering
+          x-example: "268200000075156"
+          description: Bedoeld voor paginatie. Gebruik de HAL links voor de juiste waarde
         - name: postcodeArea
           in: query
           type: integer
           required: false
           x-example: 6545
           description: Filteren op postcodegebied in *P4* formaat
-        - name: street
-          in: query
-          type: string
-          required: false
-          x-example: Binderskampweg
-          description: Filteren op straatnaam
         - name: cityId
           in: query
           type: string
           required: false
           x-example: "268200000075156"
           description: Filteren op identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
-        - name: municipalityId
-          in: query
-          type: string
-          required: false
-          x-example: "3030"
-          description: Filteren op identifier van de gemeente, gelijk aan die van de overheidstandaard BRP
-        - name: provinceId
-          in: query
-          type: string
-          required: false
-          x-example: "1"
-          description: Filteren op identifier van de provincie, gelijk aan die van de overheidstandaard BRP
       responses:
         200:
           description: OK
           schema:
             type: object
+            required:
+              - _embedded
+              - _links
             properties:
               _embedded:
                 type: object
+                required:
+                  - postcodes
                 properties:
                   postcodes:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        postcode:
-                          type: string
-                          example: 6545CA
-                        _links:
-                          type: object
-                          properties:
-                            self:
-                              type: object
-                              properties:
-                                href:
-                                  type: string
-                                  example: /postcodes/6545CA
-                                  description: Link naar postcode informatie
+                      $ref: "#/definitions/Postcode"
               _links:
                 type: object
+                required:
+                  - _self
                 properties:
-                  next:
+                  self:
                     type: object
+                    required:
+                      - href
                     properties:
                       href:
                         type: string
-                        example: /postcodes?page=2
-                        description: Link naar volgende pagina
+                        example: /postcodes
+                        description: Link naar huidige response
+                  next:
+                    type: object
+                    required:
+                      - href
+                    properties:
+                      href:
+                        type: string
+                        example: /postcodes?from=6545CA
+                        description: Link naar volgende 20 resultaten
   /postcodes/{postcode}:
     x-swagger-router-controller: postcode
     get:
@@ -265,238 +209,12 @@ paths:
           required: true
           x-example: 6545CA
           description: Postcode in *P6* formaat
-      description: Informatie over een postcode met bijbehorende adressen
+      description: Informatie over een enkele postcode.
       responses:
         200:
           description: OK
           schema:
-            type: object
-            properties:
-              postcode:
-                type: string
-                example: 6545CA
-                description: Postcode
-              city:
-                $ref: "#/definitions/City"
-              municipality:
-                $ref: "#/definitions/Municipality"
-              province:
-                $ref: "#/definitions/Province"
-              streets:
-                type: array
-                example: [Binderskampweg, Kronenburgersingel]
-                description: Ontdubbelde straten die binnen deze postcode vallen
-              geo:
-                type: object
-                properties:
-                  center:
-                    type: object
-                    properties:
-                      wgs84:
-                        $ref: "#/definitions/Wgs84Center"
-                      rd:
-                        $ref: "#/definitions/RdCenter"
-              addresses:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    street:
-                      type: string
-                      example: Binderskampweg
-                      description: Straat
-                    number:
-                      type: integer
-                      example: 29
-                      description: Huisnummer
-                    letter:
-                      type: string
-                      example: U
-                      description: Letter
-                    addition:
-                      type: string
-                      example: "31"
-                      description: Huisnummer toevoeging
-                    _links:
-                      type: object
-                      properties:
-                        self:
-                          type: object
-                          properties:
-                            href:
-                              type: string
-                              example: /addresses/268200000075156
-                              description: Link naar adres informatie
-              _links:
-                type: object
-                properties:
-                  city:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.plaatsapi.nu/cities/3030
-                        description: Link naar woonplaats informatie van Plaats API
-                  municipality:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.plaatsapi.nu/municipalities/01268
-                        description: Link naar gemeente informatie van Plaats API
-                  province:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.plaatsapi.nu/provinces/1
-                        description: Link naar provincie informatie van Plaats API
-  /postcode-areas:
-    x-swagger-router-controller: postcodeArea
-    get:
-      tags: [postcode-area]
-      summary: Alle postcodegebieden
-      description: Alle postcodegebieden in Nederland, gepagineerd per 20 records
-      operationId: findPostcodeAreas
-      parameters:
-        - name: page
-          in: query
-          type: integer
-          required: false
-          default: 1
-          x-example: 1
-          description: Paginanummer voor paginering
-      responses:
-        200:
-          description: OK
-          schema:
-            type: object
-            properties:
-              _embedded:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    label:
-                      type: string
-                      example: 6545
-                    _links:
-                      type: object
-                      properties:
-                        self:
-                          type: object
-                          properties:
-                            href:
-                              type: string
-                              example: /postcode-areas/6545
-              _links:
-                type: object
-                properties:
-                  next:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: /postcode-areas?page=2
-  /postcode-areas/{postcodeArea}:
-    x-swagger-router-controller: postcodeArea
-    get:
-      tags: [postcode-area]
-      summary: Enkel postcodegebied
-      operationId: findOnePostcodeArea
-      parameters:
-        - name: postcodeArea
-          in: path
-          type: string
-          required: true
-          x-example: 6545
-          description: Postcodegebied in *P4* formaat
-        - name: wgs84
-          in: query
-          type: string
-          required: false
-          x-example: 51.8463989,5.8031914
-          description: Komma gescheiden lat/lon (GPS) coordinaten om de afstand tot dit postcodegebied te berekenen
-      description: Informatie over een postcodegebied met bijbehorende postcodes
-      responses:
-        200:
-          description: OK
-          schema:
-            type: object
-            properties:
-              postcodeArea:
-                type: string
-                example: 6545
-                description: Postodegebied
-              city:
-                $ref: "#/definitions/City"
-              municipality:
-                $ref: "#/definitions/Municipality"
-              province:
-                $ref: "#/definitions/Province"
-              geo:
-                type: object
-                properties:
-                  center:
-                    type: object
-                    properties:
-                      rd:
-                        $ref: "#/definitions/RdCenter"
-                      wgs84:
-                        $ref: "#/definitions/Wgs84Center"
-              postcodes:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    label:
-                      type: string
-                      example: 6545CA
-                    _links:
-                      type: object
-                      properties:
-                        self:
-                          type: object
-                          properties:
-                            href:
-                              type: string
-                              example: /postcodes/6545CA
-              _links:
-                type: object
-                properties:
-                  addresses:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: /addresses?postcodeArea=6545
-                  postcodes:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-                        example: /postcodes?postcodeArea=6545
-                  city:
-                    type: object
-                    properties:
-                      href:
-                        type: object
-                        example: https://api.plaatsapi.nu/cities/3030
-                        description: Link naar woonplaats informatie van Plaats API
-                  municipality:
-                    type: object
-                    properties:
-                      href:
-                        type: object
-                        example: https://api.plaatsapi.nu/municipalities/01268
-                        description: Link naar gemeente informatie van Plaats API
-                  province:
-                    type: object
-                    properties:
-                      href:
-                        type: object
-                        example: https://api.plaatsapi.nu/provinces/1
-                        description: Link naar provincie informatie van Plaats API
+            $ref: "#/definitions/Postcode"
 definitions:
   Address:
     type: object
@@ -510,6 +228,7 @@ definitions:
       - geo
       - type
       - purpose
+      - _links
     properties:
       id:
         type: string
@@ -566,6 +285,59 @@ definitions:
               href:
                 type: string
                 example: https://api.postcodeapi.nu/v2/addresses/268200000075156
+  Postcode:
+    type: object
+    required:
+      - postcode
+      - city
+      - municipality
+      - province
+      - streets
+      - geo
+      - _links
+    properties:
+      postcode:
+        type: string
+        example: 6545CA
+        description: Postcode
+      city:
+        $ref: "#/definitions/City"
+      municipality:
+        $ref: "#/definitions/Municipality"
+      province:
+        $ref: "#/definitions/Province"
+      streets:
+        type: array
+        example: [Binderskampweg, Kronenburgersingel]
+        description: Ontdubbelde straten die binnen deze postcode vallen
+      geo:
+        type: object
+        required:
+          - center
+        properties:
+          center:
+            type: object
+            required:
+              - wgs84
+              - rd
+            properties:
+              wgs84:
+                $ref: "#/definitions/Wgs84Center"
+              rd:
+                $ref: "#/definitions/RdCenter"
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            type: object
+            required:
+              - href
+            properties:
+              href:
+                type: string
+                example: https://api.postcodeapi.nu/v2/postcodes/6545CA
   Province:
     type: object
     properties:
