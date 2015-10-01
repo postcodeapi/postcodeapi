@@ -141,7 +141,7 @@ paths:
           in: query
           type: string
           required: false
-          x-example: "268200000075156"
+          x-example: "6545CA"
           description: Bedoeld voor paginatie. Gebruik de HAL links voor de juiste waarde
         - name: postcodeArea
           in: query
@@ -153,7 +153,7 @@ paths:
           in: query
           type: string
           required: false
-          x-example: "268200000075156"
+          x-example: "1"
           description: Filteren op identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
       responses:
         200:
