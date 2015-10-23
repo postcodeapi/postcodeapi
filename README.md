@@ -11,4 +11,4 @@ Postcode API 2.0 wordt volledig van scratch ontwikkeld met de nieuwste technolog
 - Postbussen toevoegen (als iemand deze kan vinden horen wij het graag ;-))
 
 ## Credits
-Postcode API 2.0 wordt ontwikkeld en onderhouden door [Apiwise](http://www.apiwise.nl) en is een vervolg op het oorsponkelijke idee van [Freshheads](http://www.freshheads.com). Neem contact met ons op via [Twitter](https://twitter.com/apiwise) of [e-mail](info@apiwise.nl).
+Postcode API 2.0 wordt ontwikkeld en onderhouden door [Apiwise](http://www.apiwise.nl) en is een vervolg op het oorsponkelijke idee van [Freshheads](http://www.freshheads.com). Neem contact met ons op via [Twitter](https://twitter.com/apiwise) of [e-mail](mailto:info@apiwise.nl).
