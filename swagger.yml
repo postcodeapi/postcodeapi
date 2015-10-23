@@ -8,17 +8,47 @@ info:
     ### Parameters
     Alle parameters die hier beschreven staan zijn query parameters en dienen als zodanig met de URL meegestuurd te worden, bijvoorbeeld:
 
-    `https://api.postcodeapi.nu/v2/addresses?postcode=1234AB&number=1`
-
-    *Let op: deze link werkt nog niet omdat de API zelf nog gerealiseerd moet worden*
+    `https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB&number=1`
 
     ### Hypermedia
     Alle responses van deze API bevatten [HAL](http://stateless.co/hal_specification.html) *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind je in de `_links` objecten.
+
+    ### Authenticatie
+    De gehele API is beveiligd met een Api Key. Deze key heb je gekregen tijdens de registratieprocedure. Wij gebruiken deze vorm van authenticatie om het gebruik van deze dienst te kunnen monitoren en contact op te kunnen nemen met de afnemer mocht er (onbewust) misbruik van de dienst gemaakt worden.
+
+    Het meesturen van de Api Key gebeurt met de zogenaamde `X-Api-Key` request header. Als je API Key bijvoorbeeld `a0B1c2D34D5c6b7a8` is, dan stuur je dit mee in de header: `X-Api-Key: a0B1c2D34D5c6b7a8`.
+
+    Een request kan als volgt gemaakt worden met CURL:
+
+    `curl -H "X-Api-Key: a0B1c2D34D5c6b7a8" https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB`
+
+    Een ander voorbeeld met PHP:
+
+    ````
+    // De headers worden altijd meegestuurd als array
+    $headers = array();
+    $headers[] = 'X-Api-Key: a0B1c2D34D5c6b7a8';
+
+    // De URL naar de API call
+    $url = 'https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB';
+
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+    // De ruwe JSON response
+    $response = curl_exec($curl);
+
+    // Gebruik json_decode() om de response naar een PHP array te converteren
+    $data = json_decode($response);
+
+    curl_close($curl);
+    ````
   contact:
     name: Apiwise
     url: http://www.apiwise.nl
     email: info@apiwise.nl
-host: api.postcodeapi.nu
+host: postcode-api.apiwise.nl
 basePath: /v2
 schemes:
   - https
@@ -27,35 +57,25 @@ produces:
 securityDefinitions:
   apiKey:
     type: apiKey
-    name: Api-Key
+    name: X-Api-Key
     in: header
-    description: |
-      De gehele API is beveiligd met een Api Key. Deze key heb je gekregen tijdens de registratieprocedure. Wij gebruiken deze vorm van authenticatie om het gebruik van deze dienst te kunnen monitoren en contact op te kunnen nemen met de afnemer mocht er (onbewust) misbruik van de dienst gemaakt worden.
-
-      Het meesturen van de Api Key gebeurt met de zogenaamde `Api-Key` request header. Bijvoorbeeld: `Api-Key: a0B1c2D34D5c6b7a8`.
 security:
   - apiKey: []
 tags:
   - name: address
     description: Adres calls
-  - name: postcode
-    description: Postcode calls
-  - name: postcodeArea
-    description: Postcodegebied calls
 paths:
-  /addresses:
-    x-swagger-router-controller: address
+  /addresses/:
     get:
       tags: [address]
       summary: Alle adressen
       description: Alle adressen in Nederland, gepagineerd per 20 records.
-      operationId: findAddresses
       parameters:
         - name: from
           in: query
           type: string
           required: false
-          x-example: "268200000075156"
+          x-example: "0268200000075156"
           description: Bedoeld voor paginatie. Gebruik de HAL links voor de juiste waarde
         - name: postcode
           in: query
@@ -99,7 +119,7 @@ paths:
                     properties:
                       href:
                         type: string
-                        example: https://api.postcodeapi.nu/v2/addresses
+                        example: https://postcode-api.apiwise.nl/v2/addresses/
                         description: Link naar huidige response
                   next:
                     type: object
@@ -108,113 +128,25 @@ paths:
                     properties:
                       href:
                         type: string
-                        example: https://api.postcodeapi.nu/v2/addresses?from=268200000075156
+                        example: https://postcode-api.apiwise.nl/v2/addresses/?from=0268200000075156
                         description: Link naar volgende 20 resultaten
-  /addresses/{id}:
-    x-swagger-router-controller: address
+  /addresses/{id}/:
     get:
       tags: [address]
       summary: Enkel adres
-      operationId: findOneAddress
       parameters:
         - name: id
           description: Identifier van het adres, gelijk aan die van de overheidstandaard BAG
           in: path
           type: string
           required: true
-          x-example: "268200000075156"
+          x-example: "0268200000075156"
       description: Informatie over een enkel adres.
       responses:
         200:
           description: OK
           schema:
             $ref: "#/definitions/Address"
-  /postcodes:
-    x-swagger-router-controller: postcode
-    get:
-      tags: [postcode]
-      summary: Alle postcodes
-      description: Alle postcodes in Nederland, gepagineerd per 20 records.
-      operationId: findPostcodes
-      parameters:
-        - name: from
-          in: query
-          type: string
-          required: false
-          x-example: "6545CA"
-          description: Bedoeld voor paginatie. Gebruik de HAL links voor de juiste waarde
-        - name: postcodeArea
-          in: query
-          type: integer
-          required: false
-          x-example: 6545
-          description: Filteren op postcodegebied in *P4* formaat
-        - name: cityId
-          in: query
-          type: string
-          required: false
-          x-example: "1"
-          description: Filteren op identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
-      responses:
-        200:
-          description: OK
-          schema:
-            type: object
-            required:
-              - _embedded
-              - _links
-            properties:
-              _embedded:
-                type: object
-                required:
-                  - postcodes
-                properties:
-                  postcodes:
-                    type: array
-                    items:
-                      $ref: "#/definitions/Postcode"
-              _links:
-                type: object
-                required:
-                  - _self
-                properties:
-                  self:
-                    type: object
-                    required:
-                      - href
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.postcodeapi.nu/v2/postcodes
-                        description: Link naar huidige response
-                  next:
-                    type: object
-                    required:
-                      - href
-                    properties:
-                      href:
-                        type: string
-                        example: https://api.postcodeapi.nu/v2/postcodes?from=6545CA
-                        description: Link naar volgende 20 resultaten
-  /postcodes/{postcode}:
-    x-swagger-router-controller: postcode
-    get:
-      tags: [postcode]
-      summary: Enkele postcode
-      operationId: findOnePostcode
-      parameters:
-        - name: postcode
-          in: path
-          type: string
-          required: true
-          x-example: 6545CA
-          description: Postcode in *P6* formaat
-      description: Informatie over een enkele postcode.
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: "#/definitions/Postcode"
 definitions:
   Address:
     type: object
@@ -232,7 +164,7 @@ definitions:
     properties:
       id:
         type: string
-        example: 268200000075156
+        example: "0268200000075156"
         description: Identifier van het adres, gelijk aan die van de BAG
       street:
         type: string
@@ -254,6 +186,14 @@ definitions:
         type: [ string, "null" ]
         example: 6545CA
         description: Postcode in *P6* formaat
+      nen5825:
+        $ref: "#/definitions/Nen5825"
+      city:
+        $ref: "#/definitions/City"
+      municipality:
+        $ref: "#/definitions/Municipality"
+      province:
+        $ref: "#/definitions/Province"
       geo:
         type: object
         properties:
@@ -284,7 +224,7 @@ definitions:
             properties:
               href:
                 type: string
-                example: https://api.postcodeapi.nu/v2/addresses/268200000075156
+                example: https://postcode-api.apiwise.nl/v2/addresses/0268200000075156/
   Postcode:
     type: object
     required:
@@ -337,7 +277,7 @@ definitions:
             properties:
               href:
                 type: string
-                example: https://api.postcodeapi.nu/v2/postcodes/6545CA
+                example: https://postcode-api.apiwise.nl/v2/postcodes/6545CA
   Province:
     type: object
     properties:
@@ -371,6 +311,18 @@ definitions:
         type: string
         example: Nijmegen
     description: Woonplaats
+  Nen5825:
+    type: object
+    properties:
+      street:
+        type: string
+        example: "BINDERSKAMPWEG"
+        description: NEN-5825 schrijfwijze van straatnaam
+      postcode:
+        type: string
+        example: "6545 CA"
+        description: NEN-5825 schrijfwijze van postcode
+    description: NEN-5825 schrijwijzen van straatnaam en postcode
   Wgs84Center:
     type: object
     properties:
