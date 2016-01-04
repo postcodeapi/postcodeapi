@@ -177,11 +177,11 @@ definitions:
       letter:
         type: [ string, "null" ]
         example: U
-        description: Letter
+        description: Huisletter
       addition:
         type: [ string, "null" ]
         example: "31"
-        description: Huisnummer toevoeging
+        description: Huisnummertoevoeging
       postcode:
         type: [ string, "null" ]
         example: 6545CA
