@@ -164,7 +164,7 @@ definitions:
     properties:
       id:
         type: string
-        example: "0268200000075156"
+        example: "0268200000075164"
         description: Identifier van het adres, gelijk aan die van de BAG
       street:
         type: string
@@ -224,7 +224,7 @@ definitions:
             properties:
               href:
                 type: string
-                example: https://postcode-api.apiwise.nl/v2/addresses/0268200000075156/
+                example: https://postcode-api.apiwise.nl/v2/addresses/0268200000075164/
   Postcode:
     type: object
     required:
@@ -283,7 +283,7 @@ definitions:
     properties:
       id:
         type: string
-        example: "1"
+        example: "25"
         description: Identifier van de provincie, gelijk aan die van de overheidstandaard BRP
       label:
         type: string
@@ -294,7 +294,7 @@ definitions:
     properties:
       id:
         type: string
-        example: "3030"
+        example: "0268"
         description: Identifier van de gemeente, gelijk aan die van de overheidstandaard BRP
       label:
         type: string
@@ -305,7 +305,7 @@ definitions:
     properties:
       id:
         type: string
-        example: "1"
+        example: "3030"
         description: Identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
       label:
         type: string
