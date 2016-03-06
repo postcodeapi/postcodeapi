@@ -1,16 +1,6 @@
 # Postcode API 2.0
 Deze repository bevat het API design (op basis van [Swagger](http://swagger.io)) voor versie 2 van de [Postcode API](http://www.postcodeapi.nu). Via deze repository kan er gediscussieerd worden over gewenste features en de structuur van de API. Voel je vrij om de spec te forken en via Pull Requests eventuele verbeteringen en wijzigingen aan te dragen. De meest actuele API documentatie [is hier te vinden](http://www.postcodeapi.nu/docs/). Admins van deze repository zijn [@joostfarla](https://github.com/joostfarla) en [@dvh](https://github.com/dvh).
 
-## Implementaties
-Er zijn voor diverse talen en platforms door de GitHub community implementaties op deze api gemaakt.
-* PHP: <https://github.com/freshheads/FHPostcodeAPIClient>
-* PHP (Laravel): <https://github.com/nickurt/laravel-postcodeapi>
-* C#/.NET: <https://github.com/BAPostma/PostcodeAPI.Net>
-* Python: <https://github.com/steffex/pyPostcode>
-* Ruby: <https://github.com/ariejan/postcodeapi>
-* PowerShell: <https://github.com/suneetnangia/postcodeapi>
-
-# Achtergrondinformatie
 Versie 2.0 biedt meer functionaliteiten, betere performance en nauwkeurigere data dan zijn voorganger. Daarnaast is de nieuwe API structuur conform de laatste standaarden opgezet zodat de implementatie erg eenvoudig is en zal de data gaandeweg verrijkt worden met andere open data die relevant is voor adresgegevens. Suggesties of tips voor de geplande doorontwikkeling kunnen worden gedaan in de [Issues](https://github.com/apiwise/postcodeapi/issues) sectie.
 
 ## Wat zijn de grootste veranderingen?
@@ -20,6 +10,15 @@ Daarnaast is het abonnementenmodel gewijzigd. De gratis variant kent in de nieuw
 
 ## Wat betekent dit voor versie 1.0?
 Huidige implementaties van de Postcode API blijven tot 1 maart 2016 gewoon werken. Daarna zal versie 1.0 uit de lucht worden gehaald en dienen alle implementaties over te zijn geschakeld naar de nieuwe versie. Hiervoor moet er wel een nieuwe API Key aangemaakt worden via [onze website](http://www.postcodeapi.nu/#pakketten).
+
+## Implementaties
+Er zijn voor diverse talen en platforms door de GitHub community implementaties op deze api gemaakt.
+* PHP: <https://github.com/freshheads/FHPostcodeAPIClient>
+* PHP (Laravel): <https://github.com/nickurt/laravel-postcodeapi>
+* C#/.NET: <https://github.com/BAPostma/PostcodeAPI.Net>
+* Python: <https://github.com/steffex/pyPostcode>
+* Ruby: <https://github.com/ariejan/postcodeapi>
+* PowerShell: <https://github.com/suneetnangia/postcodeapi>
 
 ## Roadmap
 - `/postcodes` call om informatie betreffende een postcode op te vragen
