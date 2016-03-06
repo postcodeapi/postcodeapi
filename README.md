@@ -11,6 +11,15 @@ Daarnaast is het abonnementenmodel gewijzigd. De gratis variant kent in de nieuw
 ## Wat betekent dit voor versie 1.0?
 Huidige implementaties van de Postcode API blijven tot 1 maart 2016 gewoon werken. Daarna zal versie 1.0 uit de lucht worden gehaald en dienen alle implementaties over te zijn geschakeld naar de nieuwe versie. Hiervoor moet er wel een nieuwe API Key aangemaakt worden via [onze website](http://www.postcodeapi.nu/#pakketten).
 
+## Implementaties
+Er zijn voor diverse talen en platforms door de GitHub community implementaties op deze api gemaakt.
+* PHP: <https://github.com/freshheads/FHPostcodeAPIClient>
+* PHP (Laravel): <https://github.com/nickurt/laravel-postcodeapi>
+* C#/.NET: <https://github.com/BAPostma/PostcodeAPI.Net>
+* Python: <https://github.com/steffex/pyPostcode>
+* Ruby: <https://github.com/ariejan/postcodeapi>
+* PowerShell: <https://github.com/suneetnangia/postcodeapi>
+
 ## Roadmap
 - `/postcodes` call om informatie betreffende een postcode op te vragen
 - API call om gebruikersstatistieken op te vragen
