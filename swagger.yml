@@ -20,7 +20,7 @@ info:
 
     Een request kan als volgt gemaakt worden met CURL:
 
-    `curl -H "X-Api-Key: a0B1c2D34D5c6b7a8" https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB`
+    `curl -H "X-Api-Key: a0B1c2D34D5c6b7a8" "https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB"`
 
     Een ander voorbeeld met PHP:
 
