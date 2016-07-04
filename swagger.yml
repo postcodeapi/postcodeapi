@@ -1,191 +1,405 @@
+---
 swagger: "2.0"
 info:
-  version: "2.0"
-  title: Postcode API
-  description: |
-    De Postcode API gebruikt Open Data van Kadaster's [BAG](http://bag.kadaster.nl) en Open Data van het [CBS](http://www.cbs.nl). Alle mogelijke API calls zijn beschreven in deze specificatie. Voor support en suggesties voor verbeteringen of feature requests verwijzen we je naar de *issues* sectie onze Open Source Github repository: https://github.com/apiwise/postcodeapi.
-
-    ### Parameters
-    Alle parameters die hier beschreven staan zijn query parameters en dienen als zodanig met de URL meegestuurd te worden, bijvoorbeeld:
-
-    `https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB&number=1`
-
-    ### Hypermedia
-    Alle responses van deze API bevatten [HAL](http://stateless.co/hal_specification.html) *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind je in de `_links` objecten.
-
-    ### Authenticatie
-    De gehele API is beveiligd met een Api Key. Deze key heb je gekregen tijdens de registratieprocedure. Wij gebruiken deze vorm van authenticatie om het gebruik van deze dienst te kunnen monitoren en contact op te kunnen nemen met de afnemer mocht er (onbewust) misbruik van de dienst gemaakt worden.
-
-    Het meesturen van de Api Key gebeurt met de zogenaamde `X-Api-Key` request header. Als je API Key bijvoorbeeld `a0B1c2D34D5c6b7a8` is, dan stuur je dit mee in de header: `X-Api-Key: a0B1c2D34D5c6b7a8`.
-
-    Een request kan als volgt gemaakt worden met CURL:
-
-    `curl -H "X-Api-Key: a0B1c2D34D5c6b7a8" "https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB"`
-
-    Een ander voorbeeld met PHP:
-
-    ````
-    // De headers worden altijd meegestuurd als array
-    $headers = array();
-    $headers[] = 'X-Api-Key: a0B1c2D34D5c6b7a8';
-
-    // De URL naar de API call
-    $url = 'https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB';
-
-    $curl = curl_init($url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-
-    // De ruwe JSON response
-    $response = curl_exec($curl);
-
-    // Gebruik json_decode() om de response naar een PHP array te converteren
-    $data = json_decode($response);
-
-    curl_close($curl);
-    ````
+  version: "2.1"
+  title: "Postcode API"
+  description: "De Postcode API gebruikt Open Data van Kadaster's [BAG](http://bag.kadaster.nl)\
+    \ en Open Data van het [CBS](http://www.cbs.nl). Alle mogelijke API calls zijn\
+    \ beschreven in deze specificatie. Voor support en suggesties voor verbeteringen\
+    \ of feature requests verwijzen we je naar de *issues* sectie onze Open Source\
+    \ Github repository: https://github.com/apiwise/postcodeapi.\n\n### Parameters\n\
+    Alle parameters die hier beschreven staan zijn query parameters en dienen als\
+    \ zodanig met de URL meegestuurd te worden, bijvoorbeeld:\n\n
+    \n\
+    https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB&number=1
+    \n\
+    \n### Hypermedia\nAlle responses van deze API bevatten [HAL](http://stateless.co/hal_specification.html)\
+    \ *hypermedia links* om door de data te kunnen navigeren. Deze navigatie vind\
+    \ je in de `_links` objecten.\n\n### Authenticatie\nDe gehele API is beveiligd\
+    \ met een Api Key. Deze key heb je gekregen tijdens de registratieprocedure. Wij\
+    \ gebruiken deze vorm van authenticatie om het gebruik van deze dienst te kunnen\
+    \ monitoren en contact op te kunnen nemen met de afnemer mocht er (onbewust) misbruik\
+    \ van de dienst gemaakt worden.\n\nHet meesturen van de Api Key gebeurt met de\
+    \ zogenaamde `X-Api-Key` request header. Als je API Key bijvoorbeeld `a0B1c2D34D5c6b7a8`\
+    \ is, dan stuur je dit mee in de header: `X-Api-Key: a0B1c2D34D5c6b7a8`.\n\nEen\
+    \ request kan als volgt gemaakt worden met CURL:\n\n`curl -H \"X-Api-Key: a0B1c2D34D5c6b7a8\"\
+    \ \"https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB\"`\n\nEen ander\
+    \ voorbeeld met PHP:\n\n````\n// De headers worden altijd meegestuurd als array\n\
+    $headers = array();\n$headers[] = 'X-Api-Key: a0B1c2D34D5c6b7a8';\n\n// De URL\
+    \ naar de API call\n$url = 'https://postcode-api.apiwise.nl/v2/addresses/?postcode=1234AB';\n\
+    \n$curl = curl_init($url);\ncurl_setopt($curl, CURLOPT_RETURNTRANSFER, true);\n\
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);\n\n// Indien de server geen TLS ondersteunt kun je met \n\
+    // onderstaande optie een onveilige verbinding forceren.\n\
+    // Meestal is dit probleem te herkennen aan een lege response.\n\
+    // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);\n\n// De ruwe JSON response\n\
+    $response = curl_exec($curl);\n\n// Gebruik json_decode() om de response naar\
+    \ een PHP array te converteren\n$data = json_decode($response);\n\ncurl_close($curl);\n\
+    ````\n"
   contact:
-    name: Apiwise
-    url: http://www.apiwise.nl
-    email: info@apiwise.nl
-host: postcode-api.apiwise.nl
-basePath: /v2
+    name: "Apiwise"
+    url: "http://www.apiwise.nl"
+    email: "info@apiwise.nl"
+host: "postcode-api.apiwise.nl"
+basePath: "/v2"
 schemes:
-  - https
+- "https"
 produces:
-  - application/hal+json
+- "application/hal+json"
 securityDefinitions:
   apiKey:
-    type: apiKey
-    name: X-Api-Key
-    in: header
+    type: "apiKey"
+    name: "X-Api-Key"
+    in: "header"
 security:
-  - apiKey: []
+- apiKey: []
 tags:
-  - name: address
-    description: Adres calls
+- name: "address"
+  description: "Adres calls"
+- name: "postcode"
+  description: "Postcode calls"
 paths:
   /addresses/:
     get:
-      tags: [address]
-      summary: Alle adressen
-      description: Alle adressen in Nederland, gepagineerd per 20 records.
+      tags:
+      - "address"
+      summary: "Alle adressen"
+      description: "Alle adressen in Nederland, gepagineerd per 20 records."
       parameters:
-        - name: from
-          in: query
-          type: string
-          required: false
-          x-example: "0268200000075156"
-          description: Bedoeld voor paginatie. Gebruik de HAL links voor de juiste waarde
-        - name: postcode
-          in: query
-          type: string
-          required: false
-          x-example: 6545CA
-          description: Filteren op postcode in *P6* formaat
-        - name: number
-          in: query
-          type: integer
-          required: false
-          x-example: 29
-          description: Filteren op huisnummer (alleen in combinatie met postcode)
+      - name: "from"
+        in: "query"
+        type: "string"
+        required: false
+        x-example: "0268200000075156"
+        description: "Bedoeld voor paginatie. Gebruik de HAL links voor de juiste waarde"
+      - name: "postcode"
+        in: "query"
+        type: "string"
+        required: false
+        x-example: "6545CA"
+        description: "Filteren op postcode in *P6* formaat"
+      - name: "number"
+        in: "query"
+        type: "integer"
+        required: false
+        x-example: 29
+        description: "Filteren op huisnummer (alleen in combinatie met postcode)"
       responses:
         200:
-          description: OK
+          description: "OK"
+          headers:
+            X-RateLimit-Limit:
+              description: "Het aantal calls dat de betreffende client per dag mag doen"
+              type: "integer"
+            X-RateLimit-Remaining:
+              description: "Het resterende aantal calls dat de betreffende client die dag nog mag doen"
+              type: "integer"
           schema:
-            type: object
+            type: "object"
             required:
-              - _embedded
-              - _links
+            - "_embedded"
+            - "_links"
             properties:
               _embedded:
-                type: object
+                type: "object"
                 required:
-                  - addresses
+                - "addresses"
                 properties:
                   addresses:
-                    type: array
+                    type: "array"
                     items:
                       $ref: "#/definitions/Address"
               _links:
-                type: object
+                type: "object"
                 required:
-                  - self
+                - "self"
                 properties:
                   self:
-                    type: object
+                    type: "object"
                     required:
-                      - href
+                    - "href"
                     properties:
                       href:
-                        type: string
-                        example: https://postcode-api.apiwise.nl/v2/addresses/
-                        description: Link naar huidige response
+                        type: "string"
+                        example: "https://postcode-api.apiwise.nl/v2/addresses/"
+                        description: "Link naar huidige response"
                   next:
-                    type: object
+                    type: "object"
                     required:
-                      - href
+                    - "href"
                     properties:
                       href:
-                        type: string
-                        example: https://postcode-api.apiwise.nl/v2/addresses/?from=0268200000075156
-                        description: Link naar volgende 20 resultaten
+                        type: "string"
+                        example: "https://postcode-api.apiwise.nl/v2/addresses/?from=0268200000075156"
+                        description: "Link naar volgende 20 resultaten"
+        401:
+          description: "API key ontbreekt of is niet geldig"
+          schema:
+            $ref: "#/definitions/Error401"
+        415:
+          description: "Ongeldige Content-Type"
+          schema:
+            $ref: "#/definitions/Error415"
+        429:
+          description: "Limiet overschreden (alleen voor gratis accounts)"
+          schema:
+            $ref: "#/definitions/Error429"
   /addresses/{id}/:
     get:
-      tags: [address]
-      summary: Enkel adres
+      tags:
+      - "address"
+      summary: "Enkel adres"
       parameters:
-        - name: id
-          description: Identifier van het adres, gelijk aan die van de overheidstandaard BAG
-          in: path
-          type: string
-          required: true
-          x-example: "0268200000075156"
-      description: Informatie over een enkel adres.
+      - name: "id"
+        description: "Identifier van het adres, gelijk aan die van de overheidstandaard BAG"
+        in: "path"
+        type: "string"
+        required: true
+        x-example: "0268200000075156"
+      description: "Informatie over een enkel adres."
       responses:
         200:
-          description: OK
+          description: "OK"
           schema:
-            $ref: "#/definitions/Address"
+            $ref: "#/definitions/SingleAddress"
+        401:
+          description: "API key ontbreekt of is niet geldig"
+          schema:
+            $ref: "#/definitions/Error401"
+        404:
+          description: "Adres niet gevonden"
+          schema:
+            $ref: "#/definitions/Error404"
+        415:
+          description: "Ongeldige Content-Type"
+          schema:
+            $ref: "#/definitions/Error415"
+        429:
+          description: "Limiet overschreden (alleen voor gratis accounts)"
+          schema:
+            $ref: "#/definitions/Error429"
+  /postcodes/:
+    get:
+      tags:
+      - "postcode"
+      summary: "Alle postcodes"
+      description: "Alle postcodes in Nederland, gepagineerd per 20 records."
+      parameters:
+      - name: "from"
+        in: "query"
+        type: "string"
+        required: false
+        x-example: "0268200000075156"
+        description: "Bedoeld voor paginatie. Gebruik de HAL links voor de juiste waarde"
+      - name: "postcodeArea"
+        in: "query"
+        type: "string"
+        required: false
+        x-example: "6545"
+        description: "Filteren op postcodegebied in *P4* formaat (alleen de cijfers van een postcode)"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            required:
+            - "_embedded"
+            - "_links"
+            properties:
+              _embedded:
+                type: "object"
+                required:
+                - "addresses"
+                properties:
+                  addresses:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Postcode"
+              _links:
+                type: "object"
+                required:
+                - "self"
+                properties:
+                  self:
+                    type: "object"
+                    required:
+                    - "href"
+                    properties:
+                      href:
+                        type: "string"
+                        example: "https://postcode-api.apiwise.nl/v2/postcodes/"
+                        description: "Link naar huidige response"
+                  next:
+                    type: "object"
+                    required:
+                    - "href"
+                    properties:
+                      href:
+                        type: "string"
+                        example: "https://postcode-api.apiwise.nl/v2/postcodes/?from=6545CA"
+                        description: "Link naar volgende 20 resultaten"
+        401:
+          description: "API key ontbreekt of is niet geldig"
+          schema:
+            $ref: "#/definitions/Error401"
+        415:
+          description: "Ongeldige Content-Type"
+          schema:
+            $ref: "#/definitions/Error415"
+        429:
+          description: "Limiet overschreden (alleen voor gratis accounts)"
+          schema:
+            $ref: "#/definitions/Error429"
+  /postcodes/{postcode}/:
+    get:
+      tags:
+      - "postcode"
+      summary: "Enkele postcode"
+      parameters:
+      - name: "postcode"
+        description: "De postcode in *P6* formaat"
+        in: "path"
+        type: "string"
+        required: true
+        x-example: "6545CA"
+      description: "Informatie over een enkele postcode."
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Postcode"
+        401:
+          description: "API key ontbreekt of is niet geldig"
+          schema:
+            $ref: "#/definitions/Error401"
+        404:
+          description: "Postcode niet gevonden"
+          schema:
+            $ref: "#/definitions/Error404"
+        415:
+          description: "Ongeldige Content-Type"
+          schema:
+            $ref: "#/definitions/Error415"
+        429:
+          description: "Limiet overschreden (alleen voor gratis accounts)"
+          schema:
+            $ref: "#/definitions/Error429"
 definitions:
-  Address:
-    type: object
+  Postcode:
+    type: "object"
     required:
-      - id
-      - street
-      - number
-      - letter
-      - addition
-      - postcode
-      - geo
-      - type
-      - purpose
-      - _links
+      - "postcode"
+      - "city"
+      - "municipality"
+      - "province"
+      - "streets"
+      - "geo"
+      - "_links"
+    properties:
+      postcode:
+        type: "string"
+        example: "6545CA"
+        description: "Postcode"
+      city:
+        $ref: "#/definitions/City"
+      municipality:
+        $ref: "#/definitions/Municipality"
+      province:
+        $ref: "#/definitions/Province"
+      streets:
+        type: "array"
+        example: "[Binderskampweg, Kronenburgersingel]"
+        description: "Ontdubbelde straten die binnen deze postcode vallen"
+        items:
+          type: "string"
+      geo:
+        type: "object"
+        required:
+          - "center"
+        properties:
+          center:
+            type: "object"
+            required:
+              - "wgs84"
+            properties:
+              wgs84:
+                $ref: "#/definitions/Wgs84Center"
+      _links:
+        type: "object"
+        required:
+          - "self"
+        properties:
+          self:
+            type: "object"
+            required:
+              - "href"
+            properties:
+              href:
+                type: "string"
+                example: "https://postcode-api.apiwise.nl/v2/postcodes/6545CA/"
+  SingleAddress:
+    allOf:
+      - $ref: '#/definitions/Address'
+      - properties:
+          geo:
+            type: "object"
+            properties:
+              center:
+                type: "object"
+                properties:
+                  wgs84:
+                    $ref: "#/definitions/Wgs84Center"
+                  rd:
+                    $ref: "#/definitions/RdCenter"
+              exterior:
+                type: "object"
+                properties:
+                  wgs84:
+                    $ref: "#/definitions/Wgs84Exterior"
+  Address:
+    type: "object"
+    required:
+    - "id"
+    - "street"
+    - "number"
+    - "letter"
+    - "addition"
+    - "postcode"
+    - "geo"
+    - "type"
+    - "purpose"
+    - "year"
+    - "_links"
     properties:
       id:
-        type: string
-        example: "0268200000075164"
-        description: Identifier van het adres, gelijk aan die van de BAG
+        type: "string"
+        example: "0268200000075156"
+        description: "Identifier van het adres, gelijk aan die van de BAG"
       street:
-        type: string
-        example: Binderskampweg
-        description: Straat
+        type: "string"
+        example: "Binderskampweg"
+        description: "Straat"
       number:
-        type: integer
+        type: "integer"
         example: 29
-        description: Huisnummer
+        description: "Huisnummer"
       letter:
-        type: [ string, "null" ]
-        example: U
-        description: Huisletter
+        type:
+        - "string"
+        - "null"
+        example: "U"
+        description: "Letter"
       addition:
-        type: [ string, "null" ]
+        type:
+        - "string"
+        - "null"
         example: "31"
-        description: Huisnummertoevoeging
+        description: "Huisnummer toevoeging"
       postcode:
-        type: [ string, "null" ]
-        example: 6545CA
-        description: Postcode in *P6* formaat
+        type:
+        - "string"
+        - "null"
+        example: "6545CA"
+        description: "Postcode in *P6* formaat"
       nen5825:
         $ref: "#/definitions/Nen5825"
       city:
@@ -195,177 +409,185 @@ definitions:
       province:
         $ref: "#/definitions/Province"
       geo:
-        type: object
+        type: "object"
         properties:
           center:
-            type: object
+            type: "object"
             properties:
               wgs84:
                 $ref: "#/definitions/Wgs84Center"
               rd:
                 $ref: "#/definitions/RdCenter"
       type:
-        type: string
-        example: Verblijfsobject
-        description: Type gebouw
+        type: "string"
+        example: "Verblijfsobject"
+        description: "Type gebouw"
       purpose:
-        type: [ string, "null" ]
-        example: woonfunctie
-        description: Gebruiksdoel
+        type:
+        - "string"
+        - "null"
+        example: "woonfunctie"
+        description: "Gebruiksdoel"
+      year:
+        type: "integer"
+        example: 1987
+        description: "Bouwjaar van het gebouw"
       _links:
-        type: object
+        type: "object"
         required:
-          - self
+        - "self"
         properties:
           self:
-            type: object
+            type: "object"
             required:
-              - href
+            - "href"
             properties:
               href:
-                type: string
-                example: https://postcode-api.apiwise.nl/v2/addresses/0268200000075164/
-  Postcode:
-    type: object
-    required:
-      - postcode
-      - city
-      - municipality
-      - province
-      - streets
-      - geo
-      - _links
-    properties:
-      postcode:
-        type: string
-        example: 6545CA
-        description: Postcode
-      city:
-        $ref: "#/definitions/City"
-      municipality:
-        $ref: "#/definitions/Municipality"
-      province:
-        $ref: "#/definitions/Province"
-      streets:
-        type: array
-        example: [Binderskampweg, Kronenburgersingel]
-        description: Ontdubbelde straten die binnen deze postcode vallen
-      geo:
-        type: object
-        required:
-          - center
-        properties:
-          center:
-            type: object
-            required:
-              - wgs84
-              - rd
-            properties:
-              wgs84:
-                $ref: "#/definitions/Wgs84Center"
-              rd:
-                $ref: "#/definitions/RdCenter"
-      _links:
-        type: object
-        required:
-          - self
-        properties:
-          self:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: https://postcode-api.apiwise.nl/v2/postcodes/6545CA
+                type: "string"
+                example: "https://postcode-api.apiwise.nl/v2/addresses/0268200000075156/"
   Province:
-    type: object
+    type: "object"
     properties:
       id:
-        type: string
-        example: "25"
-        description: Identifier van de provincie, gelijk aan die van de overheidstandaard BRP
+        type: "string"
+        example: "1"
+        description: "Identifier van de provincie, gelijk aan die van de overheidstandaard BRP"
       label:
-        type: string
-        example: Gelderland
-    description: Provincie
+        type: "string"
+        example: "Gelderland"
+    description: "Provincie"
   Municipality:
-    type: object
+    type: "object"
     properties:
       id:
-        type: string
-        example: "0268"
-        description: Identifier van de gemeente, gelijk aan die van de overheidstandaard BRP
-      label:
-        type: string
-        example: Nijmegen
-    description: Gemeente
-  City:
-    type: object
-    properties:
-      id:
-        type: string
+        type: "string"
         example: "3030"
-        description: Identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG
+        description: "Identifier van de gemeente, gelijk aan die van de overheidstandaard BRP"
       label:
-        type: string
-        example: Nijmegen
-    description: Woonplaats
+        type: "string"
+        example: "Nijmegen"
+    description: "Gemeente"
+  City:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "1"
+        description: "Identifier van de woonplaats, gelijk aan die van de overheidstandaard BAG"
+      label:
+        type: "string"
+        example: "Nijmegen"
+    description: "Woonplaats"
   Nen5825:
-    type: object
+    type: "object"
     properties:
       street:
-        type: string
+        type: "string"
         example: "BINDERSKAMPWEG"
-        description: NEN-5825 schrijfwijze van straatnaam
+        description: "NEN-5825 schrijfwijze van straatnaam"
       postcode:
-        type: string
+        type: "string"
         example: "6545 CA"
-        description: NEN-5825 schrijfwijze van postcode
-    description: NEN-5825 schrijwijzen van straatnaam en postcode
-  Wgs84Center:
-    type: object
+        description: "NEN-5825 schrijfwijze van postcode"
+    description: "NEN-5825 schrijwijzen van straatnaam en postcode"
+  Wgs84Exterior:
+    type: "object"
     properties:
       type:
-        type: string
-        example: Point
+        type: "string"
+        example: "Polygon"
       coordinates:
-        type: array
+        type: "array"
         items:
-          type: number
-        example: [6.861053257304809, 53.32271304611565]
+          type: "array"
+          example: [[6.22650146484375, 52.300081389496114], [6.22650146484375, 52.43759500093112], [6.42425537109375, 52.43759500093112], [6.42425537109375, 52.300081389496114], [6.22650146484375, 52.300081389496114]]
+          items:
+            type: "array"
+            items:
+              type: "number"
       crs:
-        type: object
+        type: "object"
         properties:
           type:
-            type: string
-            example: name
+            type: "string"
+            example: "name"
           properties:
-            type: object
+            type: "object"
             properties:
               name:
-                type: string
-                example: urn:ogc:def:crs:OGC:1.3:CRS84
-  RdCenter:
-      type: object
-      properties:
-        type:
-          type: string
-          example: Point
-        coordinates:
-          type: array
-          items:
-            type: number
-          example: [253207, 593924]
-        crs:
-          type: object
+                type: "string"
+                example: "urn:ogc:def:crs:OGC:1.3:CRS84"
+  Wgs84Center:
+    type: "object"
+    properties:
+      type:
+        type: "string"
+        example: "Point"
+      coordinates:
+        type: "array"
+        items:
+          type: "number"
+        example:
+        - 6.861053257304809
+        - 53.32271304611565
+      crs:
+        type: "object"
+        properties:
+          type:
+            type: "string"
+            example: "name"
           properties:
-            type:
-              type: string
-              example: name
+            type: "object"
             properties:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: urn:ogc:def:crs:EPSG::28992
+              name:
+                type: "string"
+                example: "urn:ogc:def:crs:OGC:1.3:CRS84"
+  RdCenter:
+    type: "object"
+    properties:
+      type:
+        type: "string"
+        example: "Point"
+      coordinates:
+        type: "array"
+        items:
+          type: "number"
+        example:
+        - 253207
+        - 593924
+      crs:
+        type: "object"
+        properties:
+          type:
+            type: "string"
+            example: "name"
+          properties:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+                example: "urn:ogc:def:crs:EPSG::28992"
+  Error401:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+        example: "API key is invalid."
+  Error404:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+        example: "Resource not found."
+  Error415:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+        example: "Unsupported media type."
+  Error429:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+        example: "Rate limit exceeded."
