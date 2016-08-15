@@ -8,7 +8,6 @@ Er zijn voor diverse talen en platforms door de GitHub community implementaties 
 * C#/.NET: <https://github.com/BAPostma/PostcodeAPI.Net>
 * Python: <https://github.com/steffex/pyPostcode>
 * Ruby: <https://github.com/ariejan/postcodeapi>
-* PowerShell: <https://github.com/suneetnangia/postcodeapi>
 * Node.js: <https://github.com/joostdebruijn/node-postcode-nl>
 
 ## Credits
