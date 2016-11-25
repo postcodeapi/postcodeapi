@@ -5,6 +5,7 @@ Deze repository is het open issue tracking kanaal van de [Postcode API](http://w
 Er zijn voor diverse talen en platforms door de GitHub community implementaties op deze API gemaakt.
 * PHP: <https://github.com/freshheads/FHPostcodeAPIClient>
 * PHP (Laravel): <https://github.com/nickurt/laravel-postcodeapi>
+* PHP (Symfony): <https://github.com/Shivella/postcode-bundle>
 * C#/.NET: <https://github.com/BAPostma/PostcodeAPI.Net>
 * Python: <https://github.com/steffex/pyPostcode>
 * Ruby: <https://github.com/ariejan/postcodeapi>
