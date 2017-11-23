@@ -31,7 +31,7 @@ Een widget token kan per mail aangevraagd worden via info@postcodeapi.nu. Stuur 
 Heb je de widget token ontvangen? Voeg dan het volgende stukje code toe onderaan je HTML pagina, net voor de
 afsluitende `</body>` tag. Vervang hierbij `<<PLAK HIER DE WIDGET TOKEN>>` door de ontvangen widget token.
 
-```
+```html
 <script>
   window.postcodeapi = {
     token: '<<PLAK HIER DE WIDGET TOKEN>>',
@@ -57,7 +57,7 @@ bepaalde waarde. Dit zijn de standaard waardes:
 Wijken de `id` attributen van jouw formuliervelden af en kun je deze niet eenvoudig aanpassen? Dan kun je
 de embed code uitbreiden met de corresponderende waarden. Bijvoorbeeld:
 
-```
+```html
 <script>
   window.postcodeapi = {
     token: '<<PLAK HIER DE WIDGET TOKEN>>',
@@ -89,7 +89,7 @@ De volgende classes worden ondersteund:
 Als er een fout optreedt, bijvoorbeeld als een postcode niet gevonden is, dan kun je de foutmelding op de pagina
 laten tonen. Om dit te gebruiken dient er een leeg HTML element met `id` attribuut `postcodeapi-error` aanwezig te zijn. Deze kun je op een willekeurige plek op je pagina plaatsen. Bijvoorbeeld:
 
-```
+```html
 <span id="postcodeapi-error"></span>
 ```
 
@@ -101,7 +101,7 @@ de eindgebruiker alsnog handmatig zijn adres in kan vullen. Standaard worden de 
 
 Hieronder vind je een volledig voorbeeld van een HTML pagina, gebaseerd op de Bootstrap CSS library.
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
