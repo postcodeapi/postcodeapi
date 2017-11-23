@@ -87,8 +87,7 @@ De volgende classes worden ondersteund:
 ## Foutafhandeling
 
 Als er een fout optreedt, bijvoorbeeld als een postcode niet gevonden is, dan kun je de foutmelding op de pagina
-laten tonen. Om dit te gebruiken dient er een leeg HTML element met class `postcodeapi-error` aanwezig te zijn.
-Deze kun je op een willekeurige plek op je pagina plaatsen. Bijvoorbeeld:
+laten tonen. Om dit te gebruiken dient er een leeg HTML element met `id` attribuut ` `postcodeapi-error` aanwezig te zijn. Deze kun je op een willekeurige plek op je pagina plaatsen. Bijvoorbeeld:
 
 ```
 <span id="postcodeapi-error"></span>
