@@ -24,7 +24,7 @@ Een widget token kan per mail aangevraagd worden via info@postcodeapi.nu. Stuur 
 * De origin(s) waarvoor je de widget wil gebruiken
 * Heb je meerdere origins (bijv in een OTAP omgeving of voor een multi-tenant implementatie), stuur dan alle verschillende origins door. Je krijgt dan een widget token per origin.
 
-**LET OP: De widget code is niet hetzelfde als je API key!**
+**LET OP: De widget token is niet hetzelfde als je API key!**
 
 ## Embed code
 
