@@ -95,7 +95,35 @@ laten tonen. Om dit te gebruiken dient er een leeg HTML element met `id` attribu
 
 Als de postcode niet gevonden kan worden, dan worden de straat- en plaatsnaamvelden leeggemaakt. Als de lookup
 om een andere reden mislukt, dan zullen de straat- en plaatsnaamvelden geleegd en geactiveerd worden, zodat
-de eindgebruiker alsnog handmatig zijn adres in kan vullen. Standaard worden de velden namelijk automatisch gedeactiveerd, zodat er geen handmatige invoer mogelijk is.
+de eindgebruiker alsnog handmatig zijn adres in kan vullen. Standaard worden de velden namelijk automatisch
+gedeactiveerd, zodat er geen handmatige invoer mogelijk is.
+
+## Callbacks
+
+Met een callback kun je aanvullende custom afhandeling implementeren in je applicatie. Callbacks zijn functies
+die aangeroepen worden als er een bepaalde gebeurtenis (trigger) heeft plaatsgevonden. De volgende callbacks
+zijn beschikbaar:
+
+| Callback    | Arguments | Trigger                                                 |
+|---          |---        |---                                                      |
+| `onLoading` |           | Wordt aangeroepen als nieuwe lookup is gestart.         |
+| `onSuccess` | `result`  | Wordt aangeroepen als een lookup succesvol is afgerond. |
+| `onError`   | `message` | Wordt aangeroepen als een lookup is mislukt.            |
+
+Een callback functie registreer je als volgt:
+
+```js
+window.postcodeapi = {
+  token: '<<PLAK HIER DE WIDGET TOKEN>>',
+  onSuccess: function(result) {
+    alert(result.street);
+    alert(result.city);
+  },
+  onError: function(message) {
+    alert(message);
+  }
+};
+```
 
 ## Voorbeeld
 
