@@ -14,8 +14,7 @@ Er zijn door de community voor diverse programmeertalen en platforms client libr
 * PHP: <https://github.com/freshheads/FHPostcodeAPIClient>
 * PHP (Laravel): <https://github.com/nickurt/laravel-postcodeapi>
 * PHP (Symfony): <https://github.com/Shivella/postcode-bundle>
-* C#/.NET 4.5: <https://github.com/BAPostma/PostcodeAPI.Net>
-* C#/.NET Core: <https://github.com/FerronN/PostcodeAPI.Net-Core>
+* .NET Standard 2.0: <https://github.com/BAPostma/PostcodeAPI.Net>
 * Python: <https://github.com/steffex/pyPostcode>
 * Ruby: <https://github.com/ariejan/postcodeapi>
 * Node.js: <https://github.com/joostdebruijn/node-postcode-nl>
