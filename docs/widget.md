@@ -37,7 +37,7 @@ afsluitende `</body>` tag. Vervang hierbij `<<PLAK HIER DE WIDGET TOKEN>>` door 
     token: '<<PLAK HIER DE WIDGET TOKEN>>',
   };
 </script>
-<script src="https://cdn.postcodeapi.nu/widget-v1.js" async defer></script>
+<script src="https://cdn.postcodeapi.nu/widget-v1.1.js" async defer></script>
 ```
 
 Een compleet voorbeeld zien? Kijk dan [hieronder](#voorbeeld).
@@ -69,7 +69,7 @@ de embed code uitbreiden met de corresponderende waarden. Bijvoorbeeld:
     },
   };
 </script>
-<script src="https://cdn.postcodeapi.nu/widget-v1.js" async defer></script>
+<script src="https://cdn.postcodeapi.nu/widget-v1.1.js" async defer></script>
 ```
 
 ## CSS classes
@@ -188,7 +188,7 @@ Hieronder vind je een volledig voorbeeld van een HTML pagina, gebaseerd op de Bo
       token: '<<PLAK HIER DE WIDGET TOKEN>>',
     };
   </script>
-  <script src="https://cdn.postcodeapi.nu/widget-v1.js" async defer></script>
+  <script src="https://cdn.postcodeapi.nu/widget-v1.1.js" async defer></script>
 </body>
 </html>
 ```
